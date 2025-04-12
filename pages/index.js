@@ -11,14 +11,17 @@ export default function Home() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [cursorFollowerPosition, setCursorFollowerPosition] = useState({ x: 0, y: 0 });
   const [activeSkillCategory, setActiveSkillCategory] = useState('languages');
+  const [activeTab, setActiveTab] = useState('all');
+  const [isLoading, setIsLoading] = useState(true);
 
   // Refs for DOM elements and animations
   const heroTextRef = useRef(null);
   const heroImageRef = useRef(null);
   const cursorRef = useRef(null);
   const cursorFollowerRef = useRef(null);
+  const pageRef = useRef(null);
 
-  // Projects data from GitHub
+  // Projects data
   const projects = [
     {
       title: "SafeServe-PHI-Manager",
@@ -26,6 +29,7 @@ export default function Home() {
       image: "/assets/projects/safeserve.jpg",
       technologies: ["React", "Node.js", "Firebase", "AI"],
       github: "https://github.com/SeneshFitzroy/SafeServe-PHI-Manager.git",
+      category: "full-stack",
       featured: true
     },
     {
@@ -34,6 +38,7 @@ export default function Home() {
       image: "/assets/projects/food-inspector.jpg",
       technologies: ["C#", ".NET", "SQL"],
       github: "https://github.com/SeneshFitzroy/Food-Inspector-App-CSharp",
+      category: "desktop",
       featured: true
     },
     {
@@ -42,15 +47,26 @@ export default function Home() {
       image: "/assets/projects/team-sync.jpg",
       technologies: ["Flutter", "Dart", "Firebase"],
       github: "https://github.com/SeneshFitzroy/Team-Sync-Project-Management-Application",
+      category: "mobile",
       featured: true
     },
     {
       title: "Jewelify E-commerce",
-      description: "Elegant online jewelry shopping platform with modern UI and seamless checkout",
+      description: "Elegant online jewelry shopping platform with modern UI and seamless checkout experience",
       image: "/assets/projects/jewelify.jpg",
       technologies: ["HTML", "CSS", "Bootstrap", "PHP", "JavaScript"],
       github: "https://github.com/SeneshFitzroy/Jewelify-Ecommerce",
+      category: "web",
       featured: true
+    },
+    {
+      title: "Arduino Projects",
+      description: "Collection of Arduino-based projects focused on microcontroller programming and IoT applications",
+      image: "/assets/projects/arduino.jpg",
+      technologies: ["Arduino", "C++", "IoT", "Electronics"],
+      github: "https://github.com/SeneshFitzroy/Arduino-Projects",
+      category: "iot",
+      featured: false
     }
   ];
 
@@ -88,7 +104,7 @@ export default function Home() {
     ]
   };
 
-  // Social media links
+  // Updated social media links with your actual accounts
   const socialLinks = {
     professional: [
       { name: "Twitter", icon: "fab fa-x-twitter", url: "https://x.com/SeneshFitzroy" },
@@ -105,6 +121,13 @@ export default function Home() {
     ]
   };
 
+  // Page loading effect
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+  }, []);
+
   // Handle scroll events
   useEffect(() => {
     const handleScroll = () => {
@@ -112,7 +135,7 @@ export default function Home() {
       setScrollY(position);
       setShowBackToTop(position > 500);
       
-      // Animate elements as they come into view
+      // Animate elements
       const elements = document.querySelectorAll('.animate-on-scroll');
       elements.forEach(elem => {
         const rect = elem.getBoundingClientRect();
@@ -129,17 +152,18 @@ export default function Home() {
 
   // Custom cursor effect
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-      
-      // Delayed follower effect
-      setTimeout(() => {
-        setCursorFollowerPosition({ x: e.clientX, y: e.clientY });
-      }, 100);
-    };
+    if (typeof window !== 'undefined' && window.innerWidth > 1024) {
+      const handleMouseMove = (e) => {
+        setCursorPosition({ x: e.clientX, y: e.clientY });
+        
+        setTimeout(() => {
+          setCursorFollowerPosition({ x: e.clientX, y: e.clientY });
+        }, 100);
+      };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mousemove', handleMouseMove);
+      return () => window.removeEventListener('mousemove', handleMouseMove);
+    }
   }, []);
 
   // Update cursor position
@@ -154,9 +178,9 @@ export default function Home() {
     }
   }, [cursorPosition, cursorFollowerPosition]);
 
-  // Initialize animations when page loads
+  // Initialize animations
   useEffect(() => {
-    // Create starfield
+    // Create starfield effect
     const createStars = () => {
       const starsContainer = document.querySelector('.stars');
       if (!starsContainer) return;
@@ -172,61 +196,94 @@ export default function Home() {
       }
     };
 
-    // Initialize GSAP animations if available
-    if (window.gsap) {
+    // Initialize GSAP animations
+    if (typeof window !== 'undefined' && window.gsap) {
       const gsap = window.gsap;
-      const ScrollTrigger = window.ScrollTrigger;
       
-      // Register ScrollTrigger plugin
-      gsap.registerPlugin(ScrollTrigger);
+      if (window.ScrollTrigger) {
+        gsap.registerPlugin(window.ScrollTrigger);
+      }
       
-      // Hero section animations
-      gsap.fromTo(
-        heroTextRef.current,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1.5, ease: 'power3.out' }
-      );
-      
-      gsap.fromTo(
-        heroImageRef.current,
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 1.5, delay: 0.5, ease: 'power3.out' }
-      );
+      // Hero animations
+      if (heroTextRef.current && heroImageRef.current) {
+        gsap.fromTo(
+          heroTextRef.current,
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 1.5, ease: 'power3.out' }
+        );
+        
+        gsap.fromTo(
+          heroImageRef.current,
+          { opacity: 0, scale: 0.8 },
+          { opacity: 1, scale: 1, duration: 1.5, delay: 0.5, ease: 'power3.out' }
+        );
+      }
       
       // Timeline animations
-      gsap.utils.toArray('.timeline-item').forEach(item => {
-        gsap.fromTo(
-          item,
-          { opacity: 0, x: -50 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 80%',
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      if (timelineItems.length && window.ScrollTrigger) {
+        timelineItems.forEach(item => {
+          gsap.fromTo(
+            item,
+            { opacity: 0, x: -50 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 1,
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 80%',
+              }
             }
+          );
+        });
+      }
+
+      // Skill bars animation
+      const skillBars = document.querySelectorAll('.skill-progress-bar');
+      skillBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        
+        gsap.to(bar, {
+          width: width,
+          duration: 1.5,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: bar,
+            start: 'top 90%',
           }
-        );
+        });
       });
     }
     
     // Initialize stars
     createStars();
-  }, []);
+  }, [activeSkillCategory]);
 
-  // Toggle dark mode
+  // Filter projects
+  const filteredProjects = activeTab === 'all' 
+    ? projects 
+    : projects.filter(project => project.category === activeTab);
+
+  // Toggle functions
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
-  // Toggle mobile menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <div className={darkMode ? 'dark-mode' : ''}>
+    <div className={`${darkMode ? 'dark-mode' : ''} ${isLoading ? 'loading' : ''}`} ref={pageRef}>
+      {isLoading && (
+        <div className="loading-screen">
+          <div className="loader"></div>
+          <p>Loading amazing stuff...</p>
+        </div>
+      )}
+      
       <Head>
         <title>Senesh Fitzroy - Strategic Project Manager | Software Developer</title>
         <meta name="description" content="Strategic Project Manager and Software Developer with expertise in full-stack development, project management, and digital transformation." />
@@ -237,9 +294,8 @@ export default function Home() {
       </Head>
 
       {/* External Scripts */}
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" />
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" />
-      <Script src="https://cdn.jsdelivr.net/npm/chart.js" />
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" strategy="afterInteractive" />
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" strategy="afterInteractive" />
 
       {/* Custom Cursor */}
       <div className="cursor" ref={cursorRef}></div>
@@ -253,7 +309,7 @@ export default function Home() {
             <span className="logo-text">Senesh Fitzroy</span>
           </div>
           
-          <button className={`mobile-menu-btn ${isMenuOpen ? 'menu-open' : ''}`} onClick={toggleMenu}>
+          <button className={`mobile-menu-btn ${isMenuOpen ? 'menu-open' : ''}`} onClick={toggleMenu} aria-label="Toggle menu">
             <span className="bar"></span>
             <span className="bar"></span>
             <span className="bar"></span>
@@ -268,7 +324,9 @@ export default function Home() {
             <li><a href="#contact" onClick={() => setIsMenuOpen(false)}>Contact</a></li>
           </ul>
           
-          <button className="theme-toggle" onClick={toggleDarkMode} aria-label="Toggle dark mode"></button>
+          <button className="theme-toggle" onClick={toggleDarkMode} aria-label="Toggle dark mode">
+            <i className={darkMode ? "fas fa-sun" : "fas fa-moon"}></i>
+          </button>
         </div>
       </nav>
 
@@ -285,8 +343,8 @@ export default function Home() {
               <a href="#contact" className="hero-btn primary-btn">
                 Contact Me <i className="fas fa-arrow-right"></i>
               </a>
-              <a href="#projects" className="hero-btn secondary-btn">
-                View Projects <i className="fas fa-code"></i>
+              <a href="/assets/SeneshFitzroy-CV.pdf" target="_blank" className="hero-btn secondary-btn" download>
+                Download CV <i className="fas fa-download"></i>
               </a>
             </div>
             <div className="hero-social">
@@ -299,6 +357,7 @@ export default function Home() {
           </div>
           <div className="hero-image" ref={heroImageRef}>
             <img src="/assets/senesh.jpeg" alt="Senesh Fitzroy" />
+            <div className="image-decoration"></div>
           </div>
         </div>
         <div className="scroll-indicator">
@@ -312,7 +371,7 @@ export default function Home() {
         <div className="section-container">
           <h2>About Me</h2>
           <p className="section-subtitle">
-            Researcher | Model | Entrepreneur | Fitness Enthusiast
+            Researcher | Model | Entrepreneur | Fitness Enthusiast | Announcer
           </p>
           <div className="about-content">
             <div className="about-text">
@@ -331,18 +390,21 @@ export default function Home() {
                     <i className="fas fa-lightbulb"></i>
                   </div>
                   <h3>Innovation</h3>
+                  <p>Turning ideas into reality</p>
                 </div>
                 <div className="focus-item">
                   <div className="focus-icon">
                     <i className="fas fa-code-branch"></i>
                   </div>
                   <h3>Technology</h3>
+                  <p>Building the future</p>
                 </div>
                 <div className="focus-item">
                   <div className="focus-icon">
                     <i className="fas fa-chart-line"></i>
                   </div>
                   <h3>Strategy</h3>
+                  <p>Planning for success</p>
                 </div>
               </div>
             </div>
@@ -385,7 +447,11 @@ export default function Home() {
                   <span>{skill.name}</span>
                 </div>
                 <div className="skill-progress">
-                  <div className="skill-progress-bar" style={{width: `${skill.proficiency}%`}}>
+                  <div 
+                    className="skill-progress-bar" 
+                    style={{width: `${skill.proficiency}%`}}
+                    data-value={skill.proficiency}
+                  >
                     <span>{skill.proficiency}%</span>
                   </div>
                 </div>
@@ -410,14 +476,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects Section with Cards */}
+      {/* Projects Section with Advanced Filtering */}
       <section id="projects" className="projects animate-on-scroll">
         <div className="section-container">
           <h2>Featured Projects</h2>
           <p className="section-subtitle">Recent Work & Contributions</p>
           
+          <div className="project-categories">
+            <button 
+              className={activeTab === 'all' ? 'active' : ''}
+              onClick={() => setActiveTab('all')}
+            >
+              All Projects
+            </button>
+            <button 
+              className={activeTab === 'full-stack' ? 'active' : ''}
+              onClick={() => setActiveTab('full-stack')}
+            >
+              Full Stack
+            </button>
+            <button 
+              className={activeTab === 'web' ? 'active' : ''}
+              onClick={() => setActiveTab('web')}
+            >
+              Web
+            </button>
+            <button 
+              className={activeTab === 'mobile' ? 'active' : ''}
+              onClick={() => setActiveTab('mobile')}
+            >
+              Mobile
+            </button>
+            <button 
+              className={activeTab === 'desktop' ? 'active' : ''}
+              onClick={() => setActiveTab('desktop')}
+            >
+              Desktop
+            </button>
+          </div>
+          
           <div className="projects-grid">
-            {projects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <div key={index} className="project-card">
                 <div className="project-image">
                   <div className="project-overlay">
@@ -439,18 +538,9 @@ export default function Home() {
             ))}
           </div>
           
-          <div className="github-stats">
-            <h3>GitHub Activity & Contributions</h3>
-            <div className="stats-container">
-              <div className="stat-item">
-                <img src="https://github-readme-streak-stats.herokuapp.com/?user=SeneshFitzroy&theme=radical&hide_border=true" alt="GitHub Streak Stats" />
-              </div>
-              <div className="stat-item">
-                <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=SeneshFitzroy&theme=radical" alt="Top Languages" />
-              </div>
-            </div>
-            <a href="https://github.com/SeneshFitzroy" target="_blank" rel="noreferrer" className="github-profile-btn">
-              <i className="fab fa-github"></i> View GitHub Profile
+          <div className="project-cta">
+            <a href="https://github.com/SeneshFitzroy" target="_blank" rel="noreferrer" className="cta-btn">
+              <i className="fab fa-github"></i> View More Projects on GitHub
             </a>
           </div>
         </div>
@@ -476,6 +566,7 @@ export default function Home() {
                   <li>Specialized in Software Development</li>
                   <li>Research in Innovative Tech Solutions</li>
                   <li>Focus on project management and digital transformation</li>
+                  <li>Advanced topics in AI and machine learning</li>
                 </ul>
               </div>
             </div>
@@ -549,97 +640,6 @@ export default function Home() {
                 <div className="timeline-title">
                   <h3>Assistant Marketing Director</h3>
                   <p>Students' Wellbeing Association of NSBM</p>
-                </div>
-              </div>
-              <div className="timeline-content">
-                <ul>
-                  <li>Developed marketing strategies for student wellbeing initiatives</li>
-                  <li>Created campaigns raising awareness about mental health</li>
-                  <li>Organized wellness workshops and relaxation activities</li>
-                  <li>Strengthened skills in marketing communication</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="contact animate-on-scroll">
-        <div className="section-container">
-          <h2>Get In Touch</h2>
-          <p className="section-subtitle">Let's Connect & Collaborate</p>
-          
-          <div className="contact-container">
-            <div className="contact-info">
-              <div className="contact-item">
-                <div className="contact-icon">
-                  <i className="fas fa-envelope"></i>
-                </div>
-                <div className="contact-text">
-                  <h3>Email</h3>
-                  <p><a href="mailto:seneshfitzroy@gmail.com">seneshfitzroy@gmail.com</a></p>
-                </div>
-              </div>
-              <div className="contact-item">
-                <div className="contact-icon">
-                  <i className="fas fa-map-marker-alt"></i>
-                </div>
-                <div className="contact-text">
-                  <h3>Location</h3>
-                  <p>Sri Lanka</p>
-                </div>
-              </div>
-              
-              <div className="contact-social-container">
-                <h3>Professional Networks</h3>
-                <div className="contact-social">
-                  {socialLinks.professional.map((link, index) => (
-                    <a key={index} href={link.url} target="_blank" rel="noreferrer" className="social-link" title={link.name}>
-                      <i className={link.icon}></i>
-                    </a>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="contact-social-container">
-                <h3>Social Media</h3>
-                <div className="contact-social">
-                  {socialLinks.social.map((link, index) => (
-                    <a key={index} href={link.url} target="_blank" rel="noreferrer" className="social-link" title={link.name}>
-                      <i className={link.icon}></i>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            <form className="contact-form">
-              <div className="form-group">
-                <input type="text" className="form-control" id="name" placeholder=" " required />
-                <label htmlFor="name" className="form-label">Your Name</label>
-              </div>
-              <div className="form-group">
-                <input type="email" className="form-control" id="email" placeholder=" " required />
-                <label htmlFor="email" className="form-label">Your Email</label>
-              </div>
-              <div className="form-group">
-                <textarea className="form-control form-textarea" id="message" placeholder=" " required></textarea>
-                <label htmlFor="message" className="form-label">Your Message</label>
-              </div>
-              <button type="submit" className="submit-btn">
-                <span>Send Message</span>
-                <i className="fas fa-paper-plane"></i>
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-logo">SF</div>
           <p>🔥 Driven by innovation, technology, and strategic execution. 🚀</p>
           <div className="footer-links">
             <a href="#about">About</a>
