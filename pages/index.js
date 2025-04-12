@@ -640,6 +640,97 @@ export default function Home() {
                 <div className="timeline-title">
                   <h3>Assistant Marketing Director</h3>
                   <p>Students' Wellbeing Association of NSBM</p>
+                </div>
+              </div>
+              <div className="timeline-content">
+                <ul>
+                  <li>Developed marketing strategies for student wellbeing initiatives</li>
+                  <li>Created campaigns raising awareness about mental health</li>
+                  <li>Organized wellness workshops and relaxation activities</li>
+                  <li>Strengthened skills in marketing communication</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="contact animate-on-scroll">
+        <div className="section-container">
+          <h2>Get In Touch</h2>
+          <p className="section-subtitle">Let's Connect & Collaborate</p>
+          
+          <div className="contact-container">
+            <div className="contact-info">
+              <div className="contact-item">
+                <div className="contact-icon">
+                  <i className="fas fa-envelope"></i>
+                </div>
+                <div className="contact-text">
+                  <h3>Email</h3>
+                  <p><a href="mailto:seneshfitzroy@gmail.com">seneshfitzroy@gmail.com</a></p>
+                </div>
+              </div>
+              <div className="contact-item">
+                <div className="contact-icon">
+                  <i className="fas fa-map-marker-alt"></i>
+                </div>
+                <div className="contact-text">
+                  <h3>Location</h3>
+                  <p>Sri Lanka</p>
+                </div>
+              </div>
+              
+              <div className="contact-social-container">
+                <h3>Professional Networks</h3>
+                <div className="contact-social">
+                  {socialLinks.professional.map((link, index) => (
+                    <a key={index} href={link.url} target="_blank" rel="noreferrer" className="social-link" title={link.name}>
+                      <i className={link.icon}></i>
+                    </a>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="contact-social-container">
+                <h3>Social Media</h3>
+                <div className="contact-social">
+                  {socialLinks.social.map((link, index) => (
+                    <a key={index} href={link.url} target="_blank" rel="noreferrer" className="social-link" title={link.name}>
+                      <i className={link.icon}></i>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+              <div className="form-group">
+                <input type="text" className="form-control" id="name" placeholder=" " required />
+                <label htmlFor="name" className="form-label">Your Name</label>
+              </div>
+              <div className="form-group">
+                <input type="email" className="form-control" id="email" placeholder=" " required />
+                <label htmlFor="email" className="form-label">Your Email</label>
+              </div>
+              <div className="form-group">
+                <textarea className="form-control form-textarea" id="message" placeholder=" " required></textarea>
+                <label htmlFor="message" className="form-label">Your Message</label>
+              </div>
+              <button type="submit" className="submit-btn">
+                <span>Send Message</span>
+                <i className="fas fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-logo">SF</div>
           <p>🔥 Driven by innovation, technology, and strategic execution. 🚀</p>
           <div className="footer-links">
             <a href="#about">About</a>
@@ -669,6 +760,145 @@ export default function Home() {
       >
         <i className="fas fa-arrow-up"></i>
       </div>
+
+      {/* Add additional CSS for new features */}
+      <style jsx global>{`
+        /* Loading Screen */
+        .loading-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #1e293b, #0f172a);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+        }
+
+        .loader {
+          width: 48px;
+          height: 48px;
+          border: 5px solid #fff;
+          border-bottom-color: var(--primary);
+          border-radius: 50%;
+          display: inline-block;
+          box-sizing: border-box;
+          animation: rotation 1s linear infinite;
+          margin-bottom: 20px;
+        }
+
+        .loading-screen p {
+          color: white;
+          font-size: 1.2rem;
+          letter-spacing: 2px;
+        }
+
+        @keyframes rotation {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* Project Categories */
+        .project-categories {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+        }
+
+        .project-categories button {
+          padding: 0.5rem 1.5rem;
+          background: var(--light-medium);
+          border: none;
+          border-radius: 30px;
+          cursor: pointer;
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: var(--text-dark);
+          transition: var(--transition);
+        }
+
+        .dark-mode .project-categories button {
+          background: var(--dark-medium);
+          color: var(--text-light);
+        }
+
+        .project-categories button:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .dark-mode .project-categories button:hover {
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .project-categories button.active {
+          background: linear-gradient(135deg, var(--primary), var(--secondary));
+          color: white;
+          box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Enhanced hero image decoration */
+        .image-decoration {
+          position: absolute;
+          top: -10px;
+          right: -10px;
+          bottom: -10px;
+          left: -10px;
+          border: 2px dashed rgba(59, 130, 246, 0.3);
+          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+          z-index: -1;
+          animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* CTA button */
+        .project-cta {
+          text-align: center;
+          margin-top: 3rem;
+        }
+
+        .cta-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 1rem 2rem;
+          background: linear-gradient(135deg, #2ea043, #56d364);
+          color: white;
+          border-radius: 8px;
+          font-weight: 500;
+          transition: var(--transition);
+          box-shadow: 0 5px 15px rgba(46, 160, 67, 0.2);
+        }
+
+        .cta-btn:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(46, 160, 67, 0.3);
+        }
+
+        /* Theme toggle improvement */
+        .theme-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+        }
+
+        /* Better focus items */
+        .focus-item p {
+          font-size: 0.9rem;
+          margin-top: 0.5rem;
+          color: var(--gray);
+        }
+      `}</style>
     </div>
   );
 }
