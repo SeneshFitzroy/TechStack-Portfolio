@@ -4,10 +4,12 @@ import Script from 'next/script';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [particlesLoaded, setParticlesLoaded] = useState(false);
   
   // References for animation elements
   const heroTextRef = useRef(null);
@@ -37,40 +39,103 @@ export default function Home() {
     });
   };
 
+  // Simulate loading progress
   useEffect(() => {
-    // Simulate loading state
-    setTimeout(() => setIsLoading(false), 1500);
+    let interval;
+    let timeout;
     
-    // Initialize scroll event listener
-    window.addEventListener('scroll', handleScroll);
-    
-    // Optional: Check for user preferred color scheme
-    if (typeof window !== 'undefined') {
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setDarkMode(isDark);
+    try {
+      // Simulate loading progress from 0 to 100%
+      interval = setInterval(() => {
+        setLoadingProgress(prev => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + 5;
+        });
+      }, 100);
+      
+      // Ensure the page transitions after loading completes (or after max 3 seconds as failsafe)
+      timeout = setTimeout(() => {
+        setIsLoading(false);
+        console.log("Loading complete - timeout triggered");
+      }, 3000);
+    } catch (error) {
+      console.error("Error during loading:", error);
+      setIsLoading(false);
     }
     
-    // Hero section entrance animations
-    setTimeout(() => {
-      if (heroTextRef.current) heroTextRef.current.classList.add('animated');
-      if (heroImageRef.current) heroImageRef.current.classList.add('animated');
-      setTimeout(() => {
-        if (scrollIndicatorRef.current) scrollIndicatorRef.current.classList.add('animated');
-      }, 1000);
-    }, 500);
-    
-    // Initialize particles if available
-    setTimeout(() => {
-      if (window.particlesJS) {
-        initParticles();
+    // Cleanup to avoid memory leaks
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, []);
+  
+  useEffect(() => {
+    // If loading progress reaches 100%, transition after a small delay
+    if (loadingProgress >= 100) {
+      const finishTimeout = setTimeout(() => {
+        setIsLoading(false);
+        console.log("Loading complete - progress reached 100%");
+      }, 500);
+      
+      return () => clearTimeout(finishTimeout);
+    }
+  }, [loadingProgress]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      // Initialize scroll event listener
+      window.addEventListener('scroll', handleScroll);
+      
+      // Optional: Check for user preferred color scheme
+      if (typeof window !== 'undefined') {
+        const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setDarkMode(isDark);
       }
-    }, 2000);
+      
+      // Hero section entrance animations
+      setTimeout(() => {
+        if (heroTextRef.current) heroTextRef.current.classList.add('animated');
+        if (heroImageRef.current) heroImageRef.current.classList.add('animated');
+        setTimeout(() => {
+          if (scrollIndicatorRef.current) scrollIndicatorRef.current.classList.add('animated');
+        }, 1000);
+      }, 500);
+      
+      // Initialize particles if available
+      tryInitializeParticles();
+    }
     
     // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [isLoading]);
+
+  // Function to safely try initializing particles
+  const tryInitializeParticles = () => {
+    console.log("Attempting to initialize particles");
+    
+    // Check if particles.js is available
+    if (typeof window !== 'undefined' && window.particlesJS) {
+      initParticles();
+      setParticlesLoaded(true);
+    } else {
+      console.log("particles.js not available yet, waiting...");
+      // Try again in a second
+      setTimeout(() => {
+        if (typeof window !== 'undefined' && window.particlesJS) {
+          initParticles();
+          setParticlesLoaded(true);
+        } else {
+          console.warn("particles.js could not be loaded after retry");
+        }
+      }, 1000);
+    }
+  };
 
   // Function to initialize particles
   const initParticles = () => {
@@ -198,11 +263,31 @@ export default function Home() {
     return (
       <div className="loading-screen">
         <div className="loading-content">
-          <div className="loading-logo">SF</div>
-          <div className="loading-spinner">
-            <div className="spinner-ring"></div>
+          <div className="splash-logo">
+            <div className="logo-wrapper">
+              <svg viewBox="0 0 100 100" className="logo-svg">
+                <circle className="logo-circle" cx="50" cy="50" r="40" />
+                <path className="logo-text" d="M35,40 L65,40 L65,45 L50,60 L35,45 Z" />
+                <path className="logo-text" d="M35,60 L65,60" />
+              </svg>
+              <span className="logo-letter">SF</span>
+            </div>
           </div>
-          <div className="loading-text">Loading your experience...</div>
+          <h1 className="splash-title">Senesh Fitzroy</h1>
+          <p className="splash-subtitle">Software Engineer & Researcher</p>
+          <div className="progress-container">
+            <div 
+              className="progress-bar" 
+              style={{ width: `${loadingProgress}%` }}
+            ></div>
+          </div>
+          <p className="loading-percentage">{loadingProgress}%</p>
+          <div className="loading-message">
+            {loadingProgress < 30 && "Initializing..."}
+            {loadingProgress >= 30 && loadingProgress < 60 && "Loading assets..."}
+            {loadingProgress >= 60 && loadingProgress < 90 && "Preparing experience..."}
+            {loadingProgress >= 90 && "Almost there!"}
+          </div>
         </div>
         <style jsx>{`
           .loading-screen {
@@ -217,71 +302,167 @@ export default function Home() {
             left: 0;
             z-index: 9999;
           }
+          
           .loading-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
           }
-          .loading-logo {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: ${darkMode ? '#60a5fa' : '#3b82f6'};
-            background: ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(59,130,246,0.1)'};
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+          
+          .splash-logo {
+            margin-bottom: 2rem;
+          }
+          
+          .logo-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 30px ${darkMode ? 'rgba(96,165,250,0.3)' : 'rgba(59,130,246,0.3)'};
-            animation: pulse 2s infinite;
           }
-          .loading-spinner {
-            position: relative;
-            width: 80px;
-            height: 80px;
-          }
-          .spinner-ring {
+          
+          .logo-svg {
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 3px solid transparent;
-            border-top: 3px solid ${darkMode ? '#60a5fa' : '#3b82f6'};
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: rotate 8s infinite linear;
           }
-          .spinner-ring:after {
-            content: '';
+          
+          .logo-circle {
+            fill: none;
+            stroke: ${darkMode ? '#60a5fa' : '#3b82f6'};
+            stroke-width: 4;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            animation: circle-animation 3s forwards ease-in-out infinite;
+          }
+          
+          .logo-text {
+            fill: none;
+            stroke: ${darkMode ? '#60a5fa' : '#3b82f6'};
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: text-animation 3s forwards ease-in-out infinite;
+            animation-delay: 0.5s;
+          }
+          
+          .logo-letter {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: ${darkMode ? '#60a5fa' : '#3b82f6'};
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 2;
+          }
+          
+          .splash-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: ${darkMode ? '#f1f5f9' : '#1e293b'};
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .splash-title::after {
+            content: "";
             position: absolute;
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            border: 3px solid transparent;
-            border-top: 3px solid ${darkMode ? '#818cf8' : '#6366f1'};
-            border-radius: 50%;
-            animation: spin 1.5s linear reverse infinite;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background: ${darkMode ? '#0f172a' : '#f8fafc'};
+            border-left: 4px solid ${darkMode ? '#60a5fa' : '#3b82f6'};
+            animation: typing 2s steps(20) forwards;
           }
-          .loading-text {
+          
+          .splash-subtitle {
             font-size: 1rem;
-            font-weight: 500;
-            color: ${darkMode ? '#e2e8f0' : '#4b5563'};
-            letter-spacing: 1px;
-            animation: fadeInOut 2s infinite;
+            color: ${darkMode ? '#94a3b8' : '#64748b'};
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 1s;
           }
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+          
+          .progress-container {
+            width: 100%;
+            height: 4px;
+            background: ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'};
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
           }
-          @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 ${darkMode ? 'rgba(96,165,250,0.5)' : 'rgba(59,130,246,0.5)'}; }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(59,130,246,0); }
-            100% { transform: scale(1); }
+          
+          .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
           }
-          @keyframes fadeInOut {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+          
+          .loading-percentage {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: ${darkMode ? '#60a5fa' : '#3b82f6'};
+            margin-bottom: 1rem;
+          }
+          
+          .loading-message {
+            font-size: 0.85rem;
+            color: ${darkMode ? '#94a3b8' : '#64748b'};
+            min-height: 20px;
+          }
+          
+          @keyframes circle-animation {
+            0% {
+              stroke-dashoffset: 283;
+            }
+            50% {
+              stroke-dashoffset: 0;
+            }
+            100% {
+              stroke-dashoffset: 283;
+            }
+          }
+          
+          @keyframes text-animation {
+            0% {
+              stroke-dashoffset: 100;
+            }
+            50% {
+              stroke-dashoffset: 0;
+            }
+            100% {
+              stroke-dashoffset: 100;
+            }
+          }
+          
+          @keyframes rotate {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+          
+          @keyframes typing {
+            from { width: 100% }
+            to { width: 0 }
+          }
+          
+          @keyframes fadeIn {
+            from { opacity: 0 }
+            to { opacity: 1 }
           }
         `}</style>
       </div>
@@ -298,7 +479,18 @@ export default function Home() {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
       </Head>
 
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" strategy="afterInteractive" />
+      <Script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" 
+        strategy="afterInteractive" 
+        onLoad={() => {
+          console.log("particles.js loaded");
+          if (!particlesLoaded) tryInitializeParticles();
+        }}
+        onError={() => {
+          console.error("Failed to load particles.js");
+          // Continue showing the page even if particles fail to load
+        }}
+      />
 
       {/* Navigation */}
       <nav className={`navbar ${isMenuOpen ? 'menu-open' : ''} ${scrollY > 50 ? 'navbar-scrolled' : ''}`}>
@@ -460,14 +652,14 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
         
-        <div className="tech-background">
-          <div className="tech-item"><i className="fab fa-react"></i></div>
-          <div className="tech-item"><i className="fab fa-js-square"></i></div>
-          <div className="tech-item"><i className="fab fa-node-js"></i></div>
-          <div className="tech-item"><i className="fab fa-python"></i></div>
-          <div className="tech-item"><i className="fab fa-java"></i></div>
+          <div className="tech-background">
+            <div className="tech-item"><i className="fab fa-react"></i></div>
+            <div className="tech-item"><i className="fab fa-js-square"></i></div>
+            <div className="tech-item"><i className="fab fa-node-js"></i></div>
+            <div className="tech-item"><i className="fab fa-python"></i></div>
+            <div className="tech-item"><i className="fab fa-java"></i></div>
+          </div>
         </div>
       </section>
 
@@ -909,7 +1101,7 @@ export default function Home() {
           font-weight: 500;
           position: relative;
           padding: 0.5rem 0;
-          color: var(--text);
+          color: var (--text);
         }
         
         .nav-links a:after {
