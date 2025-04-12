@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
 import Script from 'next/script';
+import '../styles/globals.css';
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
@@ -67,16 +68,17 @@ export default function Home() {
   };
 
   return (
-    <div className={`portfolio ${darkMode ? 'dark-mode' : ''}`}>
+    <div className={darkMode ? 'dark-mode' : ''}>
       <Head>
         <title>Senesh Fitzroy - Strategic Project Manager</title>
         <meta name="description" content="Portfolio of Senesh Fitzroy, a strategic project manager and software developer." />
         <link rel="icon" href="/favicon.ico" />
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" strategy="beforeInteractive" />
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" strategy="beforeInteractive" />
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" />
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" />
 
       {/* Navigation */}
       <nav className={`navbar ${scrollY > 50 ? 'navbar-scrolled' : ''}`}>
@@ -154,20 +156,24 @@ export default function Home() {
         <h2>Experience</h2>
         <div className="experience-timeline">
           <div className="experience-item">
-            <h3>Vice President</h3>
-            <p>NSBM Circularity and Sustainability Community (Apr 2024 - Present)</p>
-            <ul>
-              <li>Led sustainability initiatives and campaigns.</li>
-              <li>Promoted eco-conscious practices.</li>
-            </ul>
+            <div>
+              <h3>Vice President</h3>
+              <p>NSBM Circularity and Sustainability Community (Apr 2024 - Present)</p>
+              <ul>
+                <li>Led sustainability initiatives and campaigns.</li>
+                <li>Promoted eco-conscious practices.</li>
+              </ul>
+            </div>
           </div>
           <div className="experience-item">
-            <h3>Media Coordinator</h3>
-            <p>Student Circle of Software Engineering (Feb 2024 - Present)</p>
-            <ul>
-              <li>Promoted software engineering events.</li>
-              <li>Managed event publicity and content creation.</li>
-            </ul>
+            <div>
+              <h3>Media Coordinator</h3>
+              <p>Student Circle of Software Engineering (Feb 2024 - Present)</p>
+              <ul>
+                <li>Promoted software engineering events.</li>
+                <li>Managed event publicity and content creation.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -185,90 +191,6 @@ export default function Home() {
       <footer>
         <p>© {new Date().getFullYear()} Senesh Fitzroy. All Rights Reserved.</p>
       </footer>
-
-      <style jsx>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        body {
-          font-family: 'Poppins', sans-serif;
-          background-color: ${darkMode ? '#121212' : '#ffffff'};
-          color: ${darkMode ? '#ffffff' : '#121212'};
-          transition: background-color 0.3s, color 0.3s;
-        }
-
-        .navbar {
-          position: fixed;
-          top: 0;
-          width: 100%;
-          background-color: ${darkMode ? '#1e1e1e' : '#f8f8f8'};
-          padding: 1rem 2rem;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          z-index: 1000;
-        }
-
-        .hero {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 5rem 2rem;
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          color: white;
-        }
-
-        .hero h1 {
-          font-size: 3rem;
-          margin-bottom: 1rem;
-        }
-
-        .hero h2 {
-          font-size: 1.5rem;
-          margin-bottom: 1rem;
-        }
-
-        .hero p {
-          font-size: 1rem;
-        }
-
-        .hero img {
-          width: 300px;
-          height: 300px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .about, .education, .experience, .contact {
-          padding: 4rem 2rem;
-        }
-
-        .about h2, .education h2, .experience h2, .contact h2 {
-          font-size: 2rem;
-          margin-bottom: 1rem;
-        }
-
-        .education-item, .experience-item {
-          margin-bottom: 2rem;
-        }
-
-        .education-item img, .experience-item img {
-          width: 50px;
-          height: 50px;
-          margin-right: 1rem;
-        }
-
-        .social-links a {
-          margin-right: 1rem;
-          color: ${darkMode ? '#ffffff' : '#3b82f6'};
-          text-decoration: none;
-        }
-
-        .social-links a:hover {
-          text-decoration: underline;
-        }
-      `}</style>
     </div>
   );
 }
