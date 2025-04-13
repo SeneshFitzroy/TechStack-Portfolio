@@ -58,60 +58,59 @@ export default function Home() {
       github: "https://github.com/SeneshFitzroy/Jewelify-Ecommerce",
       category: "web",
       featured: true
-    },
-    {
-      title: "Arduino Projects",
-      description: "Collection of Arduino-based projects focused on microcontroller programming and IoT applications",
-      image: "/assets/projects/arduino.jpg",
-      technologies: ["Arduino", "C++", "IoT", "Electronics"],
-      github: "https://github.com/SeneshFitzroy/Arduino-Projects",
-      category: "iot",
-      featured: false
     }
   ];
 
-  // Comprehensive skills data
+  // Updated comprehensive skills data based on README
   const skills = {
     languages: [
-      { name: "JavaScript", icon: "fab fa-js-square", proficiency: 90 },
-      { name: "TypeScript", icon: "fab fa-js", proficiency: 85 },
-      { name: "Python", icon: "fab fa-python", proficiency: 80 },
+      { name: "JavaScript", icon: "fab fa-js-square", proficiency: 95 },
+      { name: "Python", icon: "fab fa-python", proficiency: 90 },
       { name: "Java", icon: "fab fa-java", proficiency: 85 },
-      { name: "C#", icon: "fab fa-microsoft", proficiency: 80 },
-      { name: "HTML/CSS", icon: "fab fa-html5", proficiency: 95 },
-      { name: "PHP", icon: "fab fa-php", proficiency: 75 },
-      { name: "Dart", icon: "fas fa-code", proficiency: 70 }
+      { name: "C#", icon: "fab fa-microsoft", proficiency: 85 },
+      { name: "HTML/CSS", icon: "fab fa-html5", proficiency: 90 },
+      { name: "PHP", icon: "fab fa-php", proficiency: 80 },
+      { name: "C", icon: "fas fa-code", proficiency: 75 },
+      { name: "Dart", icon: "fas fa-mobile-alt", proficiency: 75 }
     ],
     frameworks: [
       { name: "React", icon: "fab fa-react", proficiency: 90 },
       { name: "Next.js", icon: "fab fa-react", proficiency: 85 },
       { name: "Node.js", icon: "fab fa-node-js", proficiency: 85 },
-      { name: "Flutter", icon: "fas fa-mobile-alt", proficiency: 75 },
       { name: "Express", icon: "fab fa-node-js", proficiency: 80 },
-      { name: "Laravel", icon: "fab fa-laravel", proficiency: 70 },
-      { name: "Bootstrap", icon: "fab fa-bootstrap", proficiency: 90 },
-      { name: "Firebase", icon: "fas fa-fire", proficiency: 85 }
+      { name: "Laravel", icon: "fab fa-laravel", proficiency: 75 },
+      { name: "Firebase", icon: "fas fa-fire", proficiency: 85 },
+      { name: "Flutter", icon: "fas fa-mobile-alt", proficiency: 80 },
+      { name: "Bootstrap", icon: "fab fa-bootstrap", proficiency: 85 },
+      { name: "Chart.js", icon: "fas fa-chart-bar", proficiency: 75 },
+      { name: "React Native", icon: "fab fa-react", proficiency: 75 }
     ],
     tools: [
       { name: "Git", icon: "fab fa-git-alt", proficiency: 90 },
       { name: "GitHub", icon: "fab fa-github", proficiency: 95 },
       { name: "VS Code", icon: "fas fa-code", proficiency: 95 },
-      { name: "Figma", icon: "fab fa-figma", proficiency: 80 },
-      { name: "Adobe XD", icon: "fab fa-adobe", proficiency: 75 },
+      { name: "AWS", icon: "fab fa-aws", proficiency: 75 },
+      { name: "Azure", icon: "fab fa-microsoft", proficiency: 70 },
       { name: "MongoDB", icon: "fas fa-database", proficiency: 80 },
-      { name: "MySQL", icon: "fas fa-database", proficiency: 85 },
-      { name: "AWS", icon: "fab fa-aws", proficiency: 70 }
+      { name: "Figma", icon: "fab fa-figma", proficiency: 80 },
+      { name: "Adobe PS/AI", icon: "fab fa-adobe", proficiency: 75 },
+      { name: "Linux", icon: "fab fa-linux", proficiency: 70 },
+      { name: "Oracle", icon: "fas fa-database", proficiency: 70 },
+      { name: "SQLite", icon: "fas fa-database", proficiency: 75 }
     ]
   };
 
-  // Updated social media links with your actual accounts
+  // Updated social media links with additional connections from README
   const socialLinks = {
     professional: [
       { name: "Twitter", icon: "fab fa-x-twitter", url: "https://x.com/SeneshFitzroy" },
       { name: "LinkedIn", icon: "fab fa-linkedin-in", url: "https://linkedin.com/in/seneshfitzroy" },
       { name: "Stack Exchange", icon: "fab fa-stack-exchange", url: "https://meta.stackexchange.com/users/1710137/senesh-fitzroy" },
       { name: "Dev.to", icon: "fab fa-dev", url: "https://dev.to/seneshfitzroy" },
-      { name: "GitHub", icon: "fab fa-github", url: "https://github.com/SeneshFitzroy" }
+      { name: "GitHub", icon: "fab fa-github", url: "https://github.com/SeneshFitzroy" },
+      { name: "IEEE", icon: "fas fa-university", url: "https://www.ieee.org" },
+      { name: "Styava", icon: "fas fa-code", url: "https://styava.dev/profile/profileoverview" },
+      { name: "IBM", icon: "fas fa-building", url: "https://www.ibm.com" }
     ],
     social: [
       { name: "Facebook", icon: "fab fa-facebook-f", url: "https://web.facebook.com/dinura.senesh.9" },
@@ -128,18 +127,19 @@ export default function Home() {
     }, 1500);
   }, []);
 
-  // Handle scroll events
+  // Handle scroll events - updated for faster animations
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
       setScrollY(position);
       setShowBackToTop(position > 500);
       
-      // Animate elements
+      // Animate elements with faster transitions
       const elements = document.querySelectorAll('.animate-on-scroll');
       elements.forEach(elem => {
         const rect = elem.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight - 100;
+        // Increased threshold to trigger animations earlier when scrolling
+        const isVisible = rect.top < window.innerHeight - 50;
         if (isVisible) {
           elem.classList.add('animated');
         }
@@ -178,7 +178,7 @@ export default function Home() {
     }
   }, [cursorPosition, cursorFollowerPosition]);
 
-  // Initialize animations
+  // Initialize animations - updated for faster transitions
   useEffect(() => {
     // Create starfield effect
     const createStars = () => {
@@ -196,7 +196,7 @@ export default function Home() {
       }
     };
 
-    // Initialize GSAP animations
+    // Initialize GSAP animations with faster durations
     if (typeof window !== 'undefined' && window.gsap) {
       const gsap = window.gsap;
       
@@ -204,22 +204,22 @@ export default function Home() {
         gsap.registerPlugin(window.ScrollTrigger);
       }
       
-      // Hero animations
+      // Hero animations - faster
       if (heroTextRef.current && heroImageRef.current) {
         gsap.fromTo(
           heroTextRef.current,
           { opacity: 0, y: 50 },
-          { opacity: 1, y: 0, duration: 1.5, ease: 'power3.out' }
+          { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' } // Reduced duration
         );
         
         gsap.fromTo(
           heroImageRef.current,
           { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 1.5, delay: 0.5, ease: 'power3.out' }
+          { opacity: 1, scale: 1, duration: 1.0, delay: 0.3, ease: 'power3.out' } // Reduced duration and delay
         );
       }
       
-      // Timeline animations
+      // Timeline animations - faster
       const timelineItems = document.querySelectorAll('.timeline-item');
       if (timelineItems.length && window.ScrollTrigger) {
         timelineItems.forEach(item => {
@@ -229,17 +229,18 @@ export default function Home() {
             {
               opacity: 1,
               x: 0,
-              duration: 1,
+              duration: 0.6, // Reduced duration
               scrollTrigger: {
                 trigger: item,
-                start: 'top 80%',
+                start: 'top 90%', // Trigger earlier
+                toggleActions: 'play none none none', // Play animation immediately
               }
             }
           );
         });
       }
 
-      // Skill bars animation
+      // Skill bars animation - faster
       const skillBars = document.querySelectorAll('.skill-progress-bar');
       skillBars.forEach(bar => {
         const width = bar.style.width;
@@ -247,11 +248,12 @@ export default function Home() {
         
         gsap.to(bar, {
           width: width,
-          duration: 1.5,
+          duration: 0.8, // Reduced duration
           ease: 'power2.out',
           scrollTrigger: {
             trigger: bar,
-            start: 'top 90%',
+            start: 'top 95%', // Trigger earlier
+            toggleActions: 'play none none none', // Play animation immediately
           }
         });
       });
@@ -305,7 +307,15 @@ export default function Home() {
       <nav className={`navbar ${scrollY > 50 ? 'navbar-scrolled' : ''}`}>
         <div className="navbar-container">
           <div className="logo-container">
-            <img src="/assets/senesh.jpeg" alt="Senesh Fitzroy Portrait" className="profile-logo" />
+            <img 
+              src="/assets/senesh.jpeg" 
+              alt="Senesh Fitzroy Portrait" 
+              className="profile-logo"
+              onError={(e) => {
+                e.target.onerror = null; 
+                e.target.src = "/assets/profile-fallback.png";
+              }}
+            />
             <span className="logo-text">Senesh Fitzroy</span>
           </div>
           
@@ -356,7 +366,14 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-image" ref={heroImageRef}>
-            <img src="/assets/senesh.jpeg" alt="Senesh Fitzroy" />
+            <img 
+              src="/assets/senesh.jpeg" 
+              alt="Senesh Fitzroy" 
+              onError={(e) => {
+                e.target.onerror = null; 
+                e.target.src = "/assets/profile-fallback.png";
+              }} 
+            />
             <div className="image-decoration"></div>
           </div>
         </div>
@@ -381,7 +398,7 @@ export default function Home() {
                 strategic mindset to deliver impactful results.
               </p>
               <p>
-                Currently working on SafeServe-PHI-Manager, I'm looking to collaborate on innovative software projects, 
+                I'm looking to collaborate on innovative software projects, 
                 tech startups, and solutions in areas like project management, full-stack development, and digital transformation.
               </p>
               <div className="about-focus">
@@ -459,6 +476,7 @@ export default function Home() {
             ))}
           </div>
           
+          {/* Remove duplicate skills list and keep only the cloud visualization */}
           <div className="skills-cloud">
             {Object.values(skills).flat().slice(0, 15).map((skill, index) => (
               <div 
@@ -519,6 +537,14 @@ export default function Home() {
             {filteredProjects.map((project, index) => (
               <div key={index} className="project-card">
                 <div className="project-image">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    onError={(e) => {
+                      e.target.onerror = null; 
+                      e.target.src = "/assets/project-fallback.jpg";
+                    }}
+                  />
                   <div className="project-overlay">
                     <a href={project.github} target="_blank" rel="noreferrer" className="project-link">
                       <i className="fab fa-github"></i>
@@ -555,36 +581,36 @@ export default function Home() {
           <div className="timeline">
             <div className="timeline-item">
               <div className="timeline-header">
-                <img src="/assets/plymouth-logo.png" alt="Plymouth Logo" className="timeline-logo" />
-                <div className="timeline-title">
-                  <h3>University of Plymouth</h3>
-                  <p>BSc (Hons) Software Engineering (Sep 2023 - Present)</p>
-                </div>
-              </div>
-              <div className="timeline-content">
-                <ul>
-                  <li>Specialized in Software Development</li>
-                  <li>Research in Innovative Tech Solutions</li>
-                  <li>Focus on project management and digital transformation</li>
-                  <li>Advanced topics in AI and machine learning</li>
-                </ul>
-              </div>
-            </div>
-            <div className="timeline-item">
-              <div className="timeline-header">
-                <img src="/assets/nsbm-logo.png" alt="NSBM Logo" className="timeline-logo" />
+                <img 
+                  src="/assets/nsbm-logo.png" 
+                  alt="NSBM Logo" 
+                  className="timeline-logo" 
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = "https://www.nsbm.ac.lk/wp-content/uploads/2019/09/NSBM-Logo.png";
+                  }} 
+                />
                 <div className="timeline-title">
                   <h3>NSBM Green University</h3>
                   <p>Computing Foundation Programme (Sep 2022 - Sep 2023)</p>
                 </div>
               </div>
-              <div className="timeline-content">
-                <ul>
-                  <li>Programming Fundamentals, Web Development</li>
-                  <li>ICT Project Management</li>
-                  <li>Strong foundation in computing concepts</li>
-                  <li>Business Management and Mathematics</li>
-                </ul>
+            </div>
+            <div className="timeline-item">
+              <div className="timeline-header">
+                <img 
+                  src="/assets/plymouth-logo.png" 
+                  alt="Plymouth Logo" 
+                  className="timeline-logo" 
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = "https://www.plymouth.ac.uk/themes/custom/plym_bootstrap/logo.svg";
+                  }} 
+                />
+                <div className="timeline-title">
+                  <h3>University of Plymouth</h3>
+                  <p>BSc (Hons) Software Engineering (Sep 2023 - Present)</p>
+                </div>
               </div>
             </div>
           </div>
@@ -897,6 +923,120 @@ export default function Home() {
           font-size: 0.9rem;
           margin-top: 0.5rem;
           color: var(--gray);
+        }
+
+        /* GitHub Stats Section */
+        .github-stats-container {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+          margin-top: 2rem;
+        }
+
+        .github-stat-card {
+          background: var(--card-bg);
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dark-mode .github-stat-card {
+          box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .github-stat-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .github-stat-img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+
+        .github-stats-row {
+          display: flex;
+          gap: 2rem;
+          flex-wrap: wrap;
+        }
+
+        .half-width {
+          flex: 1 1 calc(50% - 1rem);
+          min-width: 300px;
+        }
+
+        .github-cta {
+          text-align: center;
+          margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+          .github-stats-row {
+            flex-direction: column;
+          }
+          
+          .half-width {
+            flex: 1 1 100%;
+          }
+        }
+
+        /* Fix image issues */
+        .timeline-logo {
+          max-width: 80px;
+          height: 40px;
+          object-fit: contain;
+          background-color: white;
+          padding: 5px;
+          border-radius: 4px;
+        }
+
+        .hero-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+
+        /* Enhanced animation speeds */
+        .animate-on-scroll {
+          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Faster transition */
+        }
+
+        .animate-on-scroll.animated {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .animate-on-scroll:not(.animated) {
+          transform: translateY(30px); /* Reduced distance */
+          opacity: 0;
+        }
+
+        /* Education and Experience sections - enhanced for faster animations */
+        .timeline-item {
+          transition: transform 0.5s ease, opacity 0.5s ease; /* Faster transition */
+        }
+
+        @keyframes slideInFromLeft {
+          0% {
+            transform: translateX(-30px); /* Reduced distance */
+            opacity: 0;
+          }
+          100% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        .timeline-item.animated {
+          animation: slideInFromLeft 0.6s ease forwards; /* Faster animation */
+        }
+
+        /* Skill bars animation - faster */
+        .skill-progress-bar {
+          transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Faster transition */
         }
       `}</style>
     </div>
