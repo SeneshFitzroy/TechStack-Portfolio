@@ -38,6 +38,21 @@ body {
   color: var(--text-light);
 }
 
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode a {
+  color: #90caf9;
+}
+
+body.dark-mode button {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
 a {
   text-decoration: none;
   color: inherit;

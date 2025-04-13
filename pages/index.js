@@ -1,6 +1,39 @@
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
 import Script from 'next/script';
+import Certifications from '../components/Certifications';
+import Image from 'next/image';
+
+// Updated certificationsData with reorganized categories
+const certificationsData = {
+  "Professional Memberships": [
+    { title: "Certificate of IEEE Membership", issuer: "IEEE", issued: "Mar 2025", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+    { title: "Certificate of Membership for IEEE Women in Engineering (WIE)", issuer: "IEEE", issued: "Mar 2025", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+    { title: "Certificate of Membership for the IEEE Circuits and Systems Society (CAS)", issuer: "IEEE", issued: "Mar 2025", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+  ],
+  "Workshops & Development": [
+    { title: "FigMate UI/UX Figma Workshop", issuer: "NSBM Green University", issued: "Mar 2025", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+    { title: "Certificate of Participation in SkillShare: Build Your Professional Portfolio", issuer: "IEEE Student Branch", issued: "Feb 2025", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+    { title: "Pixels 2 Podium Workshop", issuer: "Hackathon Hub NSBM", issued: "Feb 2025", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+  ],
+  "Digital Marketing & Technology": [
+    { title: "Social Media Marketing Certified", issuer: "HubSpot Academy", issued: "Oct 2023", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+    { title: "Ai Masterclass: ChatGPT Prompt Engineering", issuer: "UniAthena", issued: "Sep 2023", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+    { title: "Email Marketing Certified", issuer: "HubSpot Academy", issued: "Sep 2023", link: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
+  ],
+  "IT Certifications": [
+    { title: "Front End Development - HTML", issuer: "Great Learning" },
+    { title: "HTML Certified", issuer: "Eduba" },
+    { title: "Introduction to Blockchain", issuer: "BitDegree" },
+    { title: "Computer Fundamentals Certified", issuer: "StudySection" },
+  ],
+  "AI, Machine Learning & Data Science": [
+    { title: "AI Masterclass: ChatGPT Prompt Engineering and Applications", issuer: "UniAthena" },
+    { title: "Introduction to Artificial Intelligence", issuer: "Great Learning" },
+    { title: "Introduction to Machine Learning US", issuer: "Great Learning" },
+    { title: "Artificial Intelligence (AI)", issuer: "Great Learning" },
+  ],
+};
 
 export default function Home() {
   // State management
@@ -21,12 +54,11 @@ export default function Home() {
   const cursorFollowerRef = useRef(null);
   const pageRef = useRef(null);
 
-  // Projects data
+  // Projects data - updated to remove image references
   const projects = [
     {
       title: "SafeServe-PHI-Manager",
       description: "A platform designed to modernize Public Health Inspector workflows with AI-enhanced features",
-      image: "/assets/projects/safeserve.jpg",
       technologies: ["React", "Node.js", "Firebase", "AI"],
       github: "https://github.com/SeneshFitzroy/SafeServe-PHI-Manager.git",
       category: "full-stack",
@@ -35,7 +67,6 @@ export default function Home() {
     {
       title: "Food-Inspector-App",
       description: "A C#-based application designed to streamline food inspections for Public Health Inspectors",
-      image: "/assets/projects/food-inspector.jpg",
       technologies: ["C#", ".NET", "SQL"],
       github: "https://github.com/SeneshFitzroy/Food-Inspector-App-CSharp",
       category: "desktop",
@@ -44,7 +75,6 @@ export default function Home() {
     {
       title: "Team-Sync",
       description: "Mobile app for streamlining collaboration and task management for university group projects",
-      image: "/assets/projects/team-sync.jpg",
       technologies: ["Flutter", "Dart", "Firebase"],
       github: "https://github.com/SeneshFitzroy/Team-Sync-Project-Management-Application",
       category: "mobile",
@@ -53,7 +83,6 @@ export default function Home() {
     {
       title: "Jewelify E-commerce",
       description: "Elegant online jewelry shopping platform with modern UI and seamless checkout experience",
-      image: "/assets/projects/jewelify.jpg",
       technologies: ["HTML", "CSS", "Bootstrap", "PHP", "JavaScript"],
       github: "https://github.com/SeneshFitzroy/Jewelify-Ecommerce",
       category: "web",
@@ -104,7 +133,7 @@ export default function Home() {
   const socialLinks = {
     professional: [
       { name: "Twitter", icon: "fab fa-x-twitter", url: "https://x.com/SeneshFitzroy" },
-      { name: "LinkedIn", icon: "fab fa-linkedin-in", url: "https://linkedin.com/in/seneshfitzroy" },
+      { name: "LinkedIn", icon: "fab fa-linkedin-in", url: "https://www.linkedin.com/in/senesh-fitzroy-812151263/" },
       { name: "Stack Exchange", icon: "fab fa-stack-exchange", url: "https://meta.stackexchange.com/users/1710137/senesh-fitzroy" },
       { name: "Dev.to", icon: "fab fa-dev", url: "https://dev.to/seneshfitzroy" },
       { name: "GitHub", icon: "fab fa-github", url: "https://github.com/SeneshFitzroy" },
@@ -270,11 +299,64 @@ export default function Home() {
 
   // Toggle functions
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      document.body.classList.toggle('dark-mode', newMode);
+      return newMode;
+    });
   };
 
+  useEffect(() => {
+    // Apply dark mode class on initial load if darkMode is true
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }, [darkMode]);
+
+  const experienceData = [
+    {
+      title: "Vice President",
+      organization: "NSBM Circularity and Sustainability Community",
+      startDate: "Apr 2024",
+      endDate: "Present",
+      responsibilities: [
+        "Led sustainability initiatives and campaigns",
+        "Promoted eco-conscious practices within campus",
+        "Organized awareness campaigns and workshops",
+        "Managed projects aligned with environmental goals",
+      ],
+    },
+    {
+      title: "Media Coordinator",
+      organization: "Student Circle of Software Engineering - NSBM",
+      startDate: "Feb 2024",
+      endDate: "2025", // Updated end date
+      responsibilities: [
+        "Promoted software engineering events and workshops",
+        "Created engaging content for technical audiences",
+        "Managed event publicity across various media channels",
+        "Enhanced skills in media coordination and content creation",
+      ],
+    },
+    {
+      title: "Assistant Marketing Director",
+      organization: "Students' Wellbeing Association of NSBM",
+      startDate: "Feb 2024",
+      endDate: "2025", // Updated end date
+      responsibilities: [
+        "Developed marketing strategies for student wellbeing initiatives",
+        "Created campaigns raising awareness about mental health",
+        "Organized wellness workshops and relaxation activities",
+        "Strengthened skills in marketing communication",
+      ],
+    },
+  ];
+
+  // Toggle menu function
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prevState) => !prevState);
   };
 
   return (
@@ -353,8 +435,8 @@ export default function Home() {
               <a href="#contact" className="hero-btn primary-btn">
                 Contact Me <i className="fas fa-arrow-right"></i>
               </a>
-              <a href="/assets/SeneshFitzroy-CV.pdf" target="_blank" className="hero-btn secondary-btn" download>
-                Download CV <i className="fas fa-download"></i>
+              <a href="https://tinyurl.com/SeneshCV" target="_blank" rel="noreferrer" className="hero-btn secondary-btn">
+                View CV <i className="fas fa-external-link-alt"></i>
               </a>
             </div>
             <div className="hero-social">
@@ -366,13 +448,13 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-image" ref={heroImageRef}>
-            <img 
+            <Image 
               src="/assets/senesh.jpeg" 
               alt="Senesh Fitzroy" 
-              onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = "/assets/profile-fallback.png";
-              }} 
+              width={300} 
+              height={300} 
+              priority
+              className="profile-image"
             />
             <div className="image-decoration"></div>
           </div>
@@ -494,7 +576,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects Section with Advanced Filtering */}
+      {/* Projects Section with Advanced Filtering - removed images */}
       <section id="projects" className="projects animate-on-scroll">
         <div className="section-container">
           <h2>Featured Projects</h2>
@@ -536,28 +618,22 @@ export default function Home() {
           <div className="projects-grid">
             {filteredProjects.map((project, index) => (
               <div key={index} className="project-card">
-                <div className="project-image">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    onError={(e) => {
-                      e.target.onerror = null; 
-                      e.target.src = "/assets/project-fallback.jpg";
-                    }}
-                  />
-                  <div className="project-overlay">
-                    <a href={project.github} target="_blank" rel="noreferrer" className="project-link">
-                      <i className="fab fa-github"></i>
-                    </a>
-                  </div>
-                </div>
+                <div className="project-accent-border"></div>
                 <div className="project-content">
+                  <span className="project-category-tag">{project.category}</span>
                   <h3>{project.title}</h3>
-                  <p>{project.description}</p>
+                  <p className="project-description">{project.description}</p>
                   <div className="project-tech">
                     {project.technologies.map((tech, idx) => (
                       <span key={idx} className="tech-tag">{tech}</span>
                     ))}
+                  </div>
+                  <div className="project-github-link">
+                    <a href={project.github} target="_blank" rel="noreferrer">
+                      <span className="github-btn">
+                        <i className="fab fa-github"></i> View Project
+                      </span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -572,44 +648,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Education Section */}
+      {/* Education Section - Redesigned without images */}
       <section id="education" className="education animate-on-scroll">
         <div className="section-container">
           <h2>Education</h2>
           <p className="section-subtitle">Academic Background</p>
           
-          <div className="timeline">
-            <div className="timeline-item">
-              <div className="timeline-header">
-                <img 
-                  src="/assets/nsbm-logo.png" 
-                  alt="NSBM Logo" 
-                  className="timeline-logo" 
-                  onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.src = "https://www.nsbm.ac.lk/wp-content/uploads/2019/09/NSBM-Logo.png";
-                  }} 
-                />
-                <div className="timeline-title">
+          <div className="education-cards">
+            <div className="education-card">
+              <div className="education-card-header">
+                <div className="education-icon nsbm">
+                  <i className="fas fa-university"></i>
+                </div>
+                <div className="education-details">
                   <h3>NSBM Green University</h3>
-                  <p>Computing Foundation Programme (Sep 2022 - Sep 2023)</p>
+                  <div className="education-info">
+                    <span className="education-program">Computing Foundation Programme</span>
+                    <span className="education-date"><i className="far fa-calendar-alt"></i> Sep 2022 - Sep 2023</span>
+                  </div>
+                </div>
+              </div>
+              <div className="education-card-content">
+                <div className="education-highlights">
+                  <div className="highlight-item">
+                    <i className="fas fa-laptop-code"></i>
+                    <span>Programming Fundamentals</span>
+                  </div>
+                  <div className="highlight-item">
+                    <i className="fas fa-database"></i>
+                    <span>Database Systems</span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="timeline-item">
-              <div className="timeline-header">
-                <img 
-                  src="/assets/plymouth-logo.png" 
-                  alt="Plymouth Logo" 
-                  className="timeline-logo" 
-                  onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.src = "https://www.plymouth.ac.uk/themes/custom/plym_bootstrap/logo.svg";
-                  }} 
-                />
-                <div className="timeline-title">
+            
+            <div className="education-card">
+              <div className="education-card-header">
+                <div className="education-icon plymouth">
+                  <i className="fas fa-graduation-cap"></i>
+                </div>
+                <div className="education-details">
                   <h3>University of Plymouth</h3>
-                  <p>BSc (Hons) Software Engineering (Sep 2023 - Present)</p>
+                  <div className="education-info">
+                    <span className="education-program">BSc (Hons) Software Engineering</span>
+                    <span className="education-date"><i className="far fa-calendar-alt"></i> Sep 2023 - Present</span>
+                  </div>
+                </div>
+              </div>
+              <div className="education-card-content">
+                <div className="education-highlights">
+                  <div className="highlight-item">
+                    <i className="fas fa-code-branch"></i>
+                    <span>Software Development</span>
+                  </div>
+                  <div className="highlight-item">
+                    <i className="fas fa-project-diagram"></i>
+                    <span>Project Management</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -643,7 +738,7 @@ export default function Home() {
             </div>
             
             <div className="timeline-item">
-              <div className="timeline-date">Feb 2024 - Present</div>
+              <div className="timeline-date">Feb 2024 - 2025</div>
               <div className="timeline-header">
                 <div className="timeline-title">
                   <h3>Media Coordinator</h3>
@@ -661,7 +756,7 @@ export default function Home() {
             </div>
             
             <div className="timeline-item">
-              <div className="timeline-date">Feb 2024 - Present</div>
+              <div className="timeline-date">Feb 2024 - 2025</div>
               <div className="timeline-header">
                 <div className="timeline-title">
                   <h3>Assistant Marketing Director</h3>
@@ -677,6 +772,50 @@ export default function Home() {
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications Section - Updated with View More button and 84+ mention */}
+      <section id="certifications" className="certifications animate-on-scroll">
+        <div className="section-container">
+          <h2>Certifications</h2>
+          <p className="section-subtitle">Professional Development & Achievements</p>
+          
+          <div className="certification-counter">
+            <div className="counter-badge">84+</div>
+            <span>Professional Certifications</span>
+          </div>
+          
+          <div className="certifications-grid">
+            {Object.entries(certificationsData).map(([category, items]) => (
+              <div key={category} className="cert-category">
+                <div className="cert-category-header">
+                  <h3>{category}</h3>
+                </div>
+                <div className="cert-items">
+                  {items.map((cert, index) => (
+                    <div key={index} className="cert-item">
+                      <h4>{cert.title}</h4>
+                      <div className="cert-meta">
+                        <span className="cert-issuer">{cert.issuer}</span>
+                        <span className="cert-issued">{cert.issued}</span>
+                      </div>
+                      <a href={cert.link} target="_blank" rel="noreferrer" className="cert-view-btn">
+                        View Credential <i className="fas fa-external-link-alt"></i>
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="view-more-container">
+            <a href="https://www.linkedin.com/in/senesh-fitzroy-812151263/" target="_blank" rel="noreferrer" className="view-more-btn">
+              <span>View All Certifications on LinkedIn</span>
+              <i className="fab fa-linkedin"></i>
+            </a>
           </div>
         </div>
       </section>
@@ -1038,6 +1177,529 @@ export default function Home() {
         .skill-progress-bar {
           transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Faster transition */
         }
+
+        /* Enhanced Projects Section */
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 2rem;
+          margin-top: 2rem;
+        }
+
+        .project-card {
+          position: relative;
+          background: var(--card-bg);
+          border-radius: 10px;
+          overflow: hidden;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          border: 1px solid rgba(220, 220, 220, 0.2);
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .dark-mode .project-card {
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+          border-color: rgba(50, 50, 50, 0.3);
+        }
+
+        .project-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .project-card:hover {
+          box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .project-accent-border {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .project-content {
+          padding: 1.75rem;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+
+        .project-card h3 {
+          color: var(--text-color);
+          font-size: 1.4rem;
+          margin-bottom: 1rem;
+          font-weight: 600;
+          margin-top: 0.5rem;
+        }
+
+        .project-description {
+          color: var(--text-color-light);
+          font-size: 0.95rem;
+          line-height: 1.6;
+          margin-bottom: 1.5rem;
+          flex-grow: 1;
+        }
+
+        .project-category-tag {
+          text-transform: uppercase;
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 1px;
+          padding: 0.25rem 0.75rem;
+          border-radius: 20px;
+          background: var(--primary);
+          color: white;
+          display: inline-block;
+          margin-bottom: 0.5rem;
+          align-self: flex-start;
+        }
+
+        .project-tech {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+          font-size: 0.75rem;
+          padding: 0.35rem 0.75rem;
+          background: var(--light-medium);
+          color: var(--text-dark);
+          border-radius: 20px;
+          font-weight: 500;
+        }
+
+        .dark-mode .tech-tag {
+          background: var(--dark-medium);
+          color: var(--text-light);
+        }
+
+        .project-github-link {
+          margin-top: auto;
+          text-align: center;
+        }
+
+        .github-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          font-weight: 500;
+          background: var(--card-bg);
+          border: 1.5px solid var(--primary);
+          color: var(--primary);
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+          font-size: 0.9rem;
+          width: 100%;
+          cursor: pointer;
+        }
+
+        .github-btn:hover {
+          background: var(--primary);
+          color: white;
+          transform: translateY(-3px);
+          box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .dark-mode .github-btn {
+          box-shadow: 0 5px 15px rgba(59, 130, 246, 0.1);
+        }
+
+        .dark-mode .github-btn:hover {
+          box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Improved project card typography */
+        .project-card h3, .project-description {
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .project-card h3 {
+          letter-spacing: -0.01em;
+        }
+
+        @media (max-width: 768px) {
+          .projects-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+          }
+          
+          .project-content {
+            padding: 1.25rem;
+          }
+          
+          .project-card h3 {
+            font-size: 1.25rem;
+          }
+        }
+
+        /* Enhanced Education Section */
+        .education-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 2rem;
+          margin-top: 2rem;
+        }
+
+        .education-card {
+          background: var(--card-bg);
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          border: 1px solid rgba(220, 220, 220, 0.2);
+        }
+
+        .dark-mode .education-card {
+          box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+          border-color: rgba(50, 50, 50, 0.3);
+        }
+
+        .education-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .dark-mode .education-card:hover {
+          box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .education-card-header {
+          padding: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+          border-bottom: 1px solid rgba(220, 220, 220, 0.2);
+        }
+
+        .dark-mode .education-card-header {
+          border-bottom-color: rgba(50, 50, 50, 0.3);
+        }
+
+        .education-icon {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          color: white;
+          flex-shrink: 0;
+        }
+
+        .education-icon.nsbm {
+          background: linear-gradient(135deg, #076633, #54a054);
+          box-shadow: 0 5px 15px rgba(7, 102, 51, 0.3);
+        }
+
+        .education-icon.plymouth {
+          background: linear-gradient(135deg, #0057b8, #00a0dc);
+          box-shadow: 0 5px 15px rgba(0, 87, 184, 0.3);
+        }
+
+        .education-details {
+          flex: 1;
+        }
+
+        .education-details h3 {
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+          color: var(--text-color);
+          font-weight: 600;
+        }
+
+        .education-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .education-program {
+          font-weight: 500;
+          color: var(--text-color);
+          font-size: 0.95rem;
+        }
+
+        .education-date {
+          font-size: 0.85rem;
+          color: var (--text-color-light);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .education-card-content {
+          padding: 1.5rem;
+        }
+
+        .education-highlights {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .highlight-item {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+        }
+
+        .highlight-item i {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          background: var(--light-medium);
+          color: var(--primary);
+          font-size: 0.9rem;
+        }
+
+        .dark-mode .highlight-item i {
+          background: var(--dark-medium);
+          color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+          .education-cards {
+            grid-template-columns: 1fr;
+          }
+          
+          .education-card-header {
+            padding: 1.25rem;
+          }
+          
+          .education-card-content {
+            padding: 1.25rem;
+          }
+          
+          .education-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 1.25rem;
+          }
+        }
+
+        /* Certifications Section Styling */
+        .certifications-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 1.5rem;
+          margin-top: 2rem;
+        }
+        
+        .certifications-link {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+        
+        .certifications-link a {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1.5rem;
+          background: var(--primary);
+          color: white;
+          border-radius: 8px;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        }
+        
+        .certifications-link a:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cert-category {
+          background: var(--card-bg);
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dark-mode .cert-category {
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .cert-category:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        
+        .dark-mode .cert-category:hover {
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cert-category-header {
+          background: linear-gradient(135deg, var(--primary), var(--secondary));
+          padding: 1.25rem;
+          color: white;
+        }
+        
+        .cert-category-header h3 {
+          margin: 0;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+        
+        .cert-items {
+          padding: 1.25rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+        
+        .cert-item {
+          padding-bottom: 1.25rem;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+          position: relative;
+        }
+        
+        .dark-mode .cert-item {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .cert-item:last-child {
+          padding-bottom: 0;
+          border-bottom: none;
+        }
+        
+        .cert-item h4 {
+          margin: 0 0 0.5rem 0;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--text-color);
+          line-height: 1.4;
+        }
+        
+        .cert-meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1rem;
+        }
+        
+        .cert-issuer {
+          color: var(--text-color);
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+        
+        .cert-issued {
+          color: var(--text-color-light);
+          font-size: 0.85rem;
+        }
+        
+        .cert-view-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 0.75rem;
+          background: transparent;
+          border: 1px solid var(--primary);
+          color: var(--primary);
+          border-radius: 6px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          transition: all 0.2s ease;
+        }
+        
+        .cert-view-btn:hover {
+          background: var(--primary);
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 3px 8px rgba(59, 130, 246, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+          .certifications-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        /* Enhanced Certifications Section */
+        .certification-counter {
+          text-align: center;
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        }
+        
+        .counter-badge {
+          background: linear-gradient(135deg, var(--primary), var(--secondary));
+          color: white;
+          font-size: 1.8rem;
+          font-weight: 700;
+          padding: 0.5rem 1.2rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        
+        .certification-counter span {
+          font-size: 1.2rem;
+          color: var(--text-color);
+        }
+        
+        .view-more-container {
+          text-align: center;
+          margin-top: 3rem;
+        }
+        
+        .view-more-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          background: linear-gradient(135deg, #0077b5, #00a0dc);
+          color: white;
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 1.1rem;
+          box-shadow: 0 5px 15px rgba(0, 119, 181, 0.25);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .view-more-btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(0, 119, 181, 0.3);
+        }
+        
+        .view-more-btn i {
+          font-size: 1.3rem;
+        }
+        
+        /* Improved cert-category styling */
+        .cert-category {
+          background: var(--card-bg);
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark-mode .cert-category {
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+          border-color: rgba(50, 50, 50, 0.3);
+        }
+        
+        /* ...existing styles... */
       `}</style>
     </div>
   );
