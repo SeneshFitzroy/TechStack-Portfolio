@@ -117,11 +117,19 @@ Contributions are welcome! To contribute to this project, follow these steps:
    ```
 6. **Submit a pull request** from your fork to the main repository with a detailed description of the changes.
 
-## 📝 **License**
+## 📜 **License** - Apache License 2.0
 
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the **Apache License 2.0**, a permissive open-source license that allows you to freely use, modify, and distribute the code with minimal restrictions.
 
----
+### Key Features of the Apache-2.0 License:
+
+- **🚀 Freedom to Use**: You can use the code in both personal and commercial projects without any restrictions.
+- **🛠️ Freedom to Modify**: Feel free to improve, extend, or adapt the project as you see fit.
+- **🔁 Redistribution**: You can share the code and even create derivative works, as long as you comply with the license terms.
+- **🔒 Patents**: The license grants you a royalty-free patent license, ensuring you can use the code without worrying about patent infringement.
+- **📜 License Notice**: Keep the original copyright notice and disclaimers when redistributing the code.
+
+For more detailed information, check out the full [Apache-2.0 License](https://www.apache.org/licenses/LICENSE-2.0).
 
 ## 👨‍💻 **Author**
 
