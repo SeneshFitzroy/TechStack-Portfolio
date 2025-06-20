@@ -1,8 +1,48 @@
-/* Advanced 3D CSS Styles */
+/* Advanced 3D Portfolio Styles */
+:root {
+  --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --secondary-gradient: linear-gradient(135deg, #10b981 0%, #06d6a0 100%);
+  --dark-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --glow-blue: 0 0 20px rgba(59, 130, 246, 0.4);
+  --glow-purple: 0 0 20px rgba(139, 92, 246, 0.4);
+  --glow-green: 0 0 20px rgba(16, 185, 129, 0.4);
+}
 
-/* 3D Transforms and Animations */
-.transform-3d {
+/* 3D Card Effects */
+.card-3d {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
   transform-style: preserve-3d;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 20px;
+  z-index: -1;
+}
+
+.card-3d:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+  box-shadow: var(--glow-blue);
+}
+
+.card-3d:hover::before {
+  opacity: 0.1;
+}
   perspective: 1000px;
 }
 
@@ -133,91 +173,81 @@
 
 /* Glass Morphism */
 .glass-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 24px;
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.dark-mode .glass-card {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 35px 60px rgba(0, 0, 0, 0.15);
 }
 
 /* Neon Effects */
 .neon-text {
   color: #fff;
-  text-shadow:
-    0 0 5px #3b82f6,
-    0 0 10px #3b82f6,
-    0 0 15px #3b82f6,
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 15px currentColor,
     0 0 20px #3b82f6,
     0 0 35px #3b82f6,
     0 0 40px #3b82f6;
-  animation: neonGlow 2s ease-in-out infinite alternate;
+  animation: neon-flicker 2s infinite alternate;
 }
 
-@keyframes neonGlow {
-  from {
-    text-shadow:
-      0 0 5px #3b82f6,
-      0 0 10px #3b82f6,
-      0 0 15px #3b82f6,
+@keyframes neon-flicker {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor,
       0 0 20px #3b82f6,
       0 0 35px #3b82f6,
       0 0 40px #3b82f6;
   }
-  to {
-    text-shadow:
-      0 0 2px #3b82f6,
-      0 0 5px #3b82f6,
-      0 0 8px #3b82f6,
+  50% {
+    text-shadow: 
+      0 0 2px currentColor,
+      0 0 5px currentColor,
+      0 0 8px currentColor,
       0 0 12px #3b82f6,
       0 0 18px #3b82f6,
-      0 0 25px #3b82f6;
+      0 0 20px #3b82f6;
   }
 }
 
-/* Holographic Effect */
-.holographic {
-  background: linear-gradient(45deg, #ff006e, #ff4081, #3f51b5, #03dac6, #4caf50, #ffeb3b, #ff9800);
-  background-size: 300% 300%;
-  animation: holographicShift 3s ease infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Floating Elements */
+.floating {
+  animation: float 6s ease-in-out infinite;
 }
 
-@keyframes holographicShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
-/* 3D Button Effects */
+/* 3D Button Styles */
 .btn-3d {
   position: relative;
-  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+  background: var(--primary-gradient);
   border: none;
-  border-radius: 10px;
-  padding: 15px 30px;
+  border-radius: 12px;
   color: white;
-  font-weight: 600;
   cursor: pointer;
+  font-weight: 600;
+  padding: 1rem 2rem;
   transform-style: preserve-3d;
-  transition: transform 0.15s ease;
-  box-shadow: 
-    0 5px 15px rgba(59, 130, 246, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.btn-3d:hover {
-  transform: translateY(-2px) scale(1.02);
-}
-
-.btn-3d:active {
-  transform: translateY(0px) scale(0.98);
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .btn-3d::before {
@@ -227,133 +257,109 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent);
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  background: linear-gradient(45deg, #1e40af, #6b21a8);
+  transform: translateZ(-10px);
+  border-radius: 12px;
 }
 
-.btn-3d:hover::before {
-  opacity: 1;
+.btn-3d:hover {
+  transform: translateY(-3px) rotateX(5deg);
+  box-shadow: var(--glow-blue);
 }
 
-/* Skill Orb Animation */
-.skill-orb {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+/* Holographic Effect */
+.holographic {
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff8000,
+    #ffff00,
+    #80ff00,
+    #00ff00,
+    #00ff80,
+    #00ffff,
+    #0080ff,
+    #0000ff,
+    #8000ff,
+    #ff00ff,
+    #ff0080
+  );
+  background-size: 400% 400%;
+  animation: holographic-shift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.skill-orb:hover {
-  transform: translateY(-10px) scale(1.1);
-  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
-}
-
-.skill-orb::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  background: linear-gradient(45deg, #3b82f6, #8b5cf6, #10b981);
-  border-radius: 50%;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.skill-orb:hover::before {
-  opacity: 1;
-  animation: rotateGradient 2s linear infinite;
-}
-
-@keyframes rotateGradient {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Loading Animations */
-.loading-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
+@keyframes holographic-shift {
   0%, 100% {
-    opacity: 1;
+    background-position: 0% 50%;
   }
   50% {
-    opacity: .5;
+    background-position: 100% 50%;
   }
 }
 
-.loading-bounce {
-  animation: bounce 1s infinite;
+/* Morphing Shapes */
+.morphing-blob {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: morph 8s ease-in-out infinite;
+  background: var(--primary-gradient);
 }
 
-@keyframes bounce {
+@keyframes morph {
   0%, 100% {
-    transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: rotate(0deg);
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    transform: rotate(90deg);
   }
   50% {
-    transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    border-radius: 40% 60% 60% 80% / 70% 50% 40% 60%;
+    transform: rotate(180deg);
+  }
+  75% {
+    border-radius: 70% 30% 40% 50% / 40% 70% 60% 50%;
+    transform: rotate(270deg);
   }
 }
 
-/* Magnetic Effect */
-.magnetic {
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.magnetic:hover {
-  transform: scale(1.05);
-}
-
-/* Parallax Layers */
-.parallax-layer {
+/* Particle Background */
+.particle-bg {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
 }
 
-.parallax-layer-back {
-  transform: translateZ(-1px) scale(2);
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(59, 130, 246, 0.6);
+  border-radius: 50%;
+  animation: particleFloat 20s infinite linear;
 }
 
-.parallax-layer-base {
-  transform: translateZ(0);
-}
-
-.parallax-layer-front {
-  transform: translateZ(1px);
-}
-
-/* Responsive 3D Effects */
-@media (max-width: 768px) {
-  .card-3d:hover {
-    transform: rotateY(5deg) rotateX(2deg) translateZ(20px);
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) translateX(0px) rotate(0deg);
+    opacity: 0;
   }
-  
-  .skill-orb {
-    width: 80px;
-    height: 80px;
+  10% {
+    opacity: 1;
   }
-  
-  .btn-3d {
-    padding: 12px 24px;
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10vh) translateX(100px) rotate(360deg);
+    opacity: 0;
   }
 }
 

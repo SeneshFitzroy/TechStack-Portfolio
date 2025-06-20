@@ -1,7 +1,132 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
+import { useRef, useEffect, useState } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { gsap } from 'gsap';
+import confetti from 'canvas-confetti';
+
+// Magnetic Button with 3D effect
+export function MagneticButton3D({ children, className, onClick, ...props }) {
+  const buttonRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const button = buttonRef.current;
+    if (!button) return;
+
+    const handleMouseMove = (e) => {
+      const rect = button.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      gsap.to(button, {
+        x: x * 0.4,
+        y: y * 0.4,
+        rotationX: y * 0.1,
+        rotationY: x * 0.1,
+        duration: 0.3,
+        ease: "power2.out",
+        transformPerspective: 1000
+      });
+    };
+
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+      gsap.to(button, {
+        scale: 1.05,
+        z: 50,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+      gsap.to(button, {
+        x: 0,
+        y: 0,
+        z: 0,
+        rotationX: 0,
+        rotationY: 0,
+        scale: 1,
+        duration: 0.5,
+        ease: "elastic.out(1, 0.3)"
+      });
+    };
+
+    const handleClick = (e) => {
+      // Confetti effect on click
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { 
+          x: e.clientX / window.innerWidth, 
+          y: e.clientY / window.innerHeight 
+        }
+      });
+      
+      if (onClick) onClick(e);
+    };
+
+    button.addEventListener('mousemove', handleMouseMove);
+    button.addEventListener('mouseenter', handleMouseEnter);
+    button.addEventListener('mouseleave', handleMouseLeave);
+    button.addEventListener('click', handleClick);
+
+    return () => {
+      button.removeEventListener('mousemove', handleMouseMove);
+      button.removeEventListener('mouseenter', handleMouseEnter);
+      button.removeEventListener('mouseleave', handleMouseLeave);
+      button.removeEventListener('click', handleClick);
+    };
+  }, [onClick]);
+
+  return (
+    <motion.button
+      ref={buttonRef}
+      className={`magnetic-button-3d ${className}`}
+      style={{ transformStyle: 'preserve-3d' }}
+      whileTap={{ scale: 0.95 }}
+      {...props}
+    >
+      <span className="button-content">{children}</span>
+      <span className="button-shadow"></span>
+      <style jsx>{`
+        .magnetic-button-3d {
+          position: relative;
+          background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+          border: none;
+          border-radius: 12px;
+          color: white;
+          cursor: pointer;
+          font-weight: 600;
+          padding: 1rem 2rem;
+          overflow: hidden;
+          transition: all 0.3s ease;
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .button-content {
+          position: relative;
+          z-index: 2;
+        }
+
+        .button-shadow {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(45deg, #1e40af, #6b21a8);
+          transform: translateZ(-10px);
+          border-radius: 12px;
+        }
+
+        .magnetic-button-3d:hover {
+          box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+        }
+      `}</style>
+    </motion.button>
+  );
+}
 
 // Advanced Cursor Component
 export function AdvancedCursor() {
