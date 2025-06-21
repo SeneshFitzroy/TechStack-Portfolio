@@ -17,9 +17,10 @@ const LoadingScreen = dynamic(() => import('../components/LoadingScreen'), { ssr
 // Import advanced components
 import { 
   MagneticButton3D, 
-  InteractiveCursor, 
-  ParallaxMouseEffect, 
-  TiltEffect 
+  AdvancedCursor, 
+  ParticleBackground, 
+  TiltCard,
+  SmoothScroll
 } from '../components/AdvancedInteractions';
 import {
   ScrollReveal,
