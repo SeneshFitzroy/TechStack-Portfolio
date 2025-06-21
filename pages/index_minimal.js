@@ -72,7 +72,6 @@ export default function Home() {
       }
     };
   }, []);
-
   // Celebration function
   const celebrate = () => {
     if (typeof window !== 'undefined') {
@@ -85,8 +84,8 @@ export default function Home() {
     }
   };
 
-  if (loading && typeof window !== 'undefined') {
-    return <LoadingScreen />;
+  if (loading) {
+    return typeof window !== 'undefined' ? <LoadingScreen /> : null;
   }
 
   const projects = [
