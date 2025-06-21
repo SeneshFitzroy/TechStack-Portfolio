@@ -261,7 +261,7 @@ export default function Home() {
         />
 
         {/* Interactive Cursor */}
-        <InteractiveCursor />
+        <AdvancedCursor />
 
         {/* 3D Background Scene */}
         <Scene3D darkMode={darkMode} />
