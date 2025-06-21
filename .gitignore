@@ -2,9 +2,16 @@ node_modules
 .next/ 
 node_modules/ 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .next/ 
 node_modules/ 
 =======
 >>>>>>> 1118f727e5e4ccaf3f0a4a303aaba26751da59ea
 .next/ 
 node_modules/ 
+=======
+.next/ 
+node_modules/ 
+=======
+>>>>>>> 1118f727e5e4ccaf3f0a4a303aaba26751da59ea
+>>>>>>> 9163913db579e6effda095a89484b0ce97123c77
