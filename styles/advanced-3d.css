@@ -56,11 +56,11 @@
   position: relative;
 }
 
-.card-3d:hover {
+.enhanced-card-3d:hover {
   transform: rotateY(15deg) rotateX(5deg) translateZ(50px);
 }
 
-.card-3d::before {
+.enhanced-card-3d::before {
   content: '';
   position: absolute;
   top: 0;
@@ -74,7 +74,7 @@
   pointer-events: none;
 }
 
-.card-3d:hover::before {
+.enhanced-card-3d:hover::before {
   opacity: 1;
 }
 
