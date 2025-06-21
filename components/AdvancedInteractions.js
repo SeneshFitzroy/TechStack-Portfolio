@@ -333,7 +333,7 @@ export function ParticleBackground({ darkMode }) {
 // Smooth Scroll Component
 export function SmoothScroll({ children }) {
   useEffect(() => {
-    const lenis = new (require('@studio-freight/lenis').default)({
+    const lenis = new (require('lenis'))({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       direction: 'vertical',
