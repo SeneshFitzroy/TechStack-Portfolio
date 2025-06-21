@@ -33,10 +33,10 @@
     "react-countup": "^6.5.0",
     "react-hot-toast": "^2.4.1",
     "emailjs-com": "^3.2.0",
-    "react-icons": "^4.12.0",
-    "react-helmet": "^6.1.0",
+    "react-icons": "^4.12.0",    "react-helmet": "^6.1.0",
     "canvas-confetti": "^1.9.2",
-    "vanilla-tilt": "^1.8.1"
+    "vanilla-tilt": "^1.8.1",
+    "@studio-freight/lenis": "^1.0.27"
   },
   "devDependencies": {
     "critters": "^0.0.23",
