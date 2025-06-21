@@ -522,10 +522,9 @@ export default function Home() {
                 height={300} 
                 priority
                 className="profile-image"
-              />
-            </FloatingElement>
+              />            </FloatingElement>
             <MorphingShape className="image-decoration" />
-          </div>
+          </TiltCard>
         </div>
         <div className="scroll-indicator">
           <span>Scroll Down</span>
