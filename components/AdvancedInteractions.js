@@ -54,14 +54,16 @@ export function MagneticButton3D({ children, className, onClick, ...props }) {
 
     const handleClick = (e) => {
       // Confetti effect on click
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { 
-          x: e.clientX / window.innerWidth, 
-          y: e.clientY / window.innerHeight 
-        }
-      });
+      if (typeof window !== 'undefined') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { 
+            x: e.clientX / window.innerWidth, 
+            y: e.clientY / window.innerHeight 
+          }
+        });
+      }
       
       if (onClick) onClick(e);
     };
@@ -128,103 +130,78 @@ export function MagneticButton3D({ children, className, onClick, ...props }) {
   );
 }
 
-// Advanced Cursor Component
+// Advanced Cursor
 export function AdvancedCursor() {
   const cursorRef = useRef(null);
   const cursorDotRef = useRef(null);
-  const [isPointer, setIsPointer] = useState(false);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-
-    const onMouseMove = (e) => {
-      const { clientX, clientY } = e;
-      
-      if (cursor) {
-        cursor.style.left = clientX + 'px';
-        cursor.style.top = clientY + 'px';
+    const handleMouseMove = (e) => {
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          x: e.clientX - 20,
+          y: e.clientY - 20,
+          duration: 0.3,
+          ease: "power2.out"
+        });
       }
       
-      if (cursorDot) {
-        cursorDot.style.left = clientX + 'px';
-        cursorDot.style.top = clientY + 'px';
+      if (cursorDotRef.current) {
+        gsap.to(cursorDotRef.current, {
+          x: e.clientX - 3,
+          y: e.clientY - 3,
+          duration: 0.1,
+          ease: "power2.out"
+        });
       }
     };
 
-    const onMouseEnter = (e) => {
-      const target = e.target;
-      if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.classList.contains('cursor-pointer')) {
-        setIsPointer(true);
+    const handleMouseEnter = (e) => {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        gsap.to(cursorRef.current, {
+          scale: 1.5,
+          duration: 0.3
+        });
       }
     };
 
-    const onMouseLeave = () => {
-      setIsPointer(false);
+    const handleMouseLeave = (e) => {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        gsap.to(cursorRef.current, {
+          scale: 1,
+          duration: 0.3
+        });
+      }
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseenter', onMouseEnter, true);
-    document.addEventListener('mouseleave', onMouseLeave, true);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseenter', handleMouseEnter, true);
+      window.addEventListener('mouseleave', handleMouseLeave, true);
+    }
 
     return () => {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseenter', onMouseEnter, true);
-      document.removeEventListener('mouseleave', onMouseLeave, true);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseenter', handleMouseEnter, true);
+        window.removeEventListener('mouseleave', handleMouseLeave, true);
+      }
     };
   }, []);
 
   return (
-    <>
+    <div className="hidden md:block">
       <div
         ref={cursorRef}
-        className={`custom-cursor ${isPointer ? 'pointer' : ''}`}
+        className="fixed top-0 left-0 w-10 h-10 border-2 border-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
+        style={{ position: 'fixed' }}
       />
       <div
         ref={cursorDotRef}
-        className="custom-cursor-dot"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-blue-500 rounded-full pointer-events-none z-50"
+        style={{ position: 'fixed' }}
       />
-      
-      <style jsx>{`
-        .custom-cursor {
-          position: fixed;
-          width: 40px;
-          height: 40px;
-          border: 2px solid #3b82f6;
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 9999;
-          transform: translate(-50%, -50%);
-          transition: width 0.3s, height 0.3s, border-color 0.3s;
-          mix-blend-mode: difference;
-        }
-
-        .custom-cursor.pointer {
-          width: 60px;
-          height: 60px;
-          border-color: #8b5cf6;
-        }
-
-        .custom-cursor-dot {
-          position: fixed;
-          width: 6px;
-          height: 6px;
-          background: #3b82f6;
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 9999;
-          transform: translate(-50%, -50%);
-          transition: background 0.3s;
-        }
-
-        @media (max-width: 768px) {
-          .custom-cursor,
-          .custom-cursor-dot {
-            display: none;
-          }
-        }
-      `}</style>
-    </>
+    </div>
   );
 }
 
@@ -330,9 +307,10 @@ export function ParticleBackground({ darkMode }) {
   return null;
 }
 
-// Smooth Scroll Component
+// Smooth Scroll Component (Simplified)
 export function SmoothScroll({ children }) {
   useEffect(() => {
+<<<<<<< HEAD
     const lenis = new (require('lenis'))({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -344,16 +322,33 @@ export function SmoothScroll({ children }) {
       touchMultiplier: 2,
       infinite: false,
     });
+=======
+    // Simple smooth scroll polyfill
+    if (typeof window !== 'undefined') {
+      // Override default scroll behavior for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+        });
+      });
+>>>>>>> 1118f727e5e4ccaf3f0a4a303aaba26751da59ea
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      // Add smooth scroll CSS
+      document.documentElement.style.scrollBehavior = 'smooth';
     }
 
-    requestAnimationFrame(raf);
-
     return () => {
-      lenis.destroy();
+      if (typeof window !== 'undefined') {
+        document.documentElement.style.scrollBehavior = 'auto';
+      }
     };
   }, []);
 
@@ -408,6 +403,8 @@ export function ScrollProgress() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = (window.scrollY / totalHeight) * 100;
@@ -443,6 +440,8 @@ export function FloatingActionButton({ onClick, icon, label }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleScroll = () => {
       setIsVisible(window.scrollY > 300);
     };
@@ -589,5 +588,124 @@ export function TiltCard({ children, className, tiltMaxAngleX = 15, tiltMaxAngle
     >
       {children}
     </div>
+  );
+}
+
+// Parallax Mouse Effect
+export function ParallaxMouseEffect({ children, intensity = 0.1 }) {
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    const handleMouseMove = (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const moveX = x * intensity;
+      const moveY = y * intensity;
+      
+      element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    };
+
+    const handleMouseLeave = () => {
+      element.style.transform = 'translate(0, 0)';
+    };
+
+    element.addEventListener('mousemove', handleMouseMove);
+    element.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      element.removeEventListener('mousemove', handleMouseMove);
+      element.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [intensity]);
+
+  return (
+    <div ref={elementRef} style={{ transition: 'transform 0.1s ease-out' }}>
+      {children}
+    </div>
+  );
+}
+
+// Hover Tilt Card Effect
+export function HoverTiltCard({ children, className = "" }) {
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const y = e.clientY - box.top;
+    const centerX = box.width / 2;
+    const centerY = box.height / 2;
+    const rotateXValue = (y - centerY) / 8;
+    const rotateYValue = (centerX - x) / 8;
+
+    setRotateX(rotateXValue);
+    setRotateY(rotateYValue);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
+
+  return (
+    <motion.div
+      className={`transform-gpu perspective-1000 ${className}`}
+      style={{
+        transformStyle: "preserve-3d",
+        rotateX,
+        rotateY,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Mouse Follower Dot
+export function MouseFollowerDot() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cursorRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          x: e.clientX - 10,
+          y: e.clientY - 10,
+          duration: 0.1,
+          ease: "power2.out"
+        });
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={cursorRef}
+      className="fixed top-0 left-0 w-5 h-5 bg-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
+      style={{ position: 'fixed' }}
+    />
   );
 }

@@ -28,9 +28,19 @@
     "react": "18.2.0",
     "react-countup": "^6.5.0",
     "react-dom": "18.2.0",
+<<<<<<< HEAD
     "react-helmet": "^6.1.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.12.0",
+=======
+    "sharp": "^0.32.1",    "@react-three/fiber": "^8.15.12",
+    "@react-three/drei": "^9.85.0",
+    "three": "^0.159.0",
+    "framer-motion": "^10.16.16",
+    "lottie-react": "^2.4.0",
+    "react-spring": "^9.7.3",
+    "gsap": "^3.12.2",
+>>>>>>> 1118f727e5e4ccaf3f0a4a303aaba26751da59ea
     "react-intersection-observer": "^9.5.3",
     "react-parallax-tilt": "^1.7.177",
     "react-particles": "^2.12.2",
@@ -39,6 +49,16 @@
     "three": "^0.158.0",
     "tsparticles-slim": "^2.12.0",
     "typewriter-effect": "^2.21.0",
+<<<<<<< HEAD
+=======
+    "aos": "^2.3.4",
+    "react-parallax-tilt": "^1.7.177",
+    "react-countup": "^6.5.0",
+    "react-hot-toast": "^2.4.1",
+    "emailjs-com": "^3.2.0",
+    "react-icons": "^4.12.0",    "react-helmet": "^6.1.0",
+    "canvas-confetti": "^1.9.2",
+>>>>>>> 1118f727e5e4ccaf3f0a4a303aaba26751da59ea
     "vanilla-tilt": "^1.8.1"
   },
   "devDependencies": {
