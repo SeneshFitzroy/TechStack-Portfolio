@@ -331,12 +331,8 @@ export function SmoothScroll({ children }) {
       document.documentElement.style.scrollBehavior = 'smooth';
     }
 
-    return () => {
-      if (typeof window !== 'undefined') {
+    return () => {      if (typeof window !== 'undefined') {
         document.documentElement.style.scrollBehavior = 'auto';
-      }
-    };
-  }, []);
       }
     };
   }, []);
