@@ -43,20 +43,24 @@
 .card-3d:hover::before {
   opacity: 0.1;
 }
+
+/* 3D Container */
+.container-3d {
   perspective: 1000px;
 }
 
-.card-3d {
+/* Enhanced Card 3D Effects */
+.enhanced-card-3d {
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   position: relative;
 }
 
-.card-3d:hover {
+.enhanced-card-3d:hover {
   transform: rotateY(15deg) rotateX(5deg) translateZ(50px);
 }
 
-.card-3d::before {
+.enhanced-card-3d::before {
   content: '';
   position: absolute;
   top: 0;
@@ -70,7 +74,7 @@
   pointer-events: none;
 }
 
-.card-3d:hover::before {
+.enhanced-card-3d:hover::before {
   opacity: 1;
 }
 
