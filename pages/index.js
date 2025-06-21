@@ -219,6 +219,8 @@ export default function Home() {
 
   // Mouse tracking
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -609,7 +611,7 @@ export default function Home() {
                       <div className="project-actions">
                         <MagneticButton3D 
                           className="btn-outline"
-                          onClick={() => window.open(project.github, '_blank')}
+                          onClick={() => typeof window !== 'undefined' && window.open(project.github, '_blank')}
                         >
                           <i className="fab fa-github"></i>
                           Code
@@ -617,7 +619,7 @@ export default function Home() {
                         
                         <MagneticButton3D 
                           className="btn-primary"
-                          onClick={() => window.open(project.demo, '_blank')}
+                          onClick={() => typeof window !== 'undefined' && window.open(project.demo, '_blank')}
                         >
                           <i className="fas fa-external-link-alt"></i>
                           Demo
