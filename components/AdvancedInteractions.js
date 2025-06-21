@@ -310,19 +310,6 @@ export function ParticleBackground({ darkMode }) {
 // Smooth Scroll Component (Simplified)
 export function SmoothScroll({ children }) {
   useEffect(() => {
-<<<<<<< HEAD
-    const lenis = new (require('lenis'))({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    });
-=======
     // Simple smooth scroll polyfill
     if (typeof window !== 'undefined') {
       // Override default scroll behavior for anchor links
@@ -339,7 +326,6 @@ export function SmoothScroll({ children }) {
           }
         });
       });
->>>>>>> 1118f727e5e4ccaf3f0a4a303aaba26751da59ea
 
       // Add smooth scroll CSS
       document.documentElement.style.scrollBehavior = 'smooth';
@@ -348,6 +334,9 @@ export function SmoothScroll({ children }) {
     return () => {
       if (typeof window !== 'undefined') {
         document.documentElement.style.scrollBehavior = 'auto';
+      }
+    };
+  }, []);
       }
     };
   }, []);
