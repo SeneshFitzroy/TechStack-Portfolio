@@ -54,14 +54,16 @@ export function MagneticButton3D({ children, className, onClick, ...props }) {
 
     const handleClick = (e) => {
       // Confetti effect on click
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { 
-          x: e.clientX / window.innerWidth, 
-          y: e.clientY / window.innerHeight 
-        }
-      });
+      if (typeof window !== 'undefined') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { 
+            x: e.clientX / window.innerWidth, 
+            y: e.clientY / window.innerHeight 
+          }
+        });
+      }
       
       if (onClick) onClick(e);
     };
@@ -330,30 +332,34 @@ export function ParticleBackground({ darkMode }) {
   return null;
 }
 
-// Smooth Scroll Component
+// Smooth Scroll Component (Simplified)
 export function SmoothScroll({ children }) {
   useEffect(() => {
-    const lenis = new (require('@studio-freight/lenis').default)({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    });
+    // Simple smooth scroll polyfill
+    if (typeof window !== 'undefined') {
+      // Override default scroll behavior for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+        });
+      });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      // Add smooth scroll CSS
+      document.documentElement.style.scrollBehavior = 'smooth';
     }
 
-    requestAnimationFrame(raf);
-
     return () => {
-      lenis.destroy();
+      if (typeof window !== 'undefined') {
+        document.documentElement.style.scrollBehavior = 'auto';
+      }
     };
   }, []);
 
@@ -408,6 +414,8 @@ export function ScrollProgress() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = (window.scrollY / totalHeight) * 100;
@@ -443,6 +451,8 @@ export function FloatingActionButton({ onClick, icon, label }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const handleScroll = () => {
       setIsVisible(window.scrollY > 300);
     };
@@ -587,6 +597,45 @@ export function TiltCard({ children, className, tiltMaxAngleX = 15, tiltMaxAngle
         transformStyle: 'preserve-3d'
       }}
     >
+      {children}
+    </div>
+  );
+}
+
+// Parallax Mouse Effect
+export function ParallaxMouseEffect({ children, intensity = 0.1 }) {
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    const handleMouseMove = (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const moveX = x * intensity;
+      const moveY = y * intensity;
+      
+      element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    };
+
+    const handleMouseLeave = () => {
+      element.style.transform = 'translate(0, 0)';
+    };
+
+    element.addEventListener('mousemove', handleMouseMove);
+    element.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      element.removeEventListener('mousemove', handleMouseMove);
+      element.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [intensity]);
+
+  return (
+    <div ref={elementRef} style={{ transition: 'transform 0.1s ease-out' }}>
       {children}
     </div>
   );
