@@ -130,103 +130,78 @@ export function MagneticButton3D({ children, className, onClick, ...props }) {
   );
 }
 
-// Advanced Cursor Component
+// Advanced Cursor
 export function AdvancedCursor() {
   const cursorRef = useRef(null);
   const cursorDotRef = useRef(null);
-  const [isPointer, setIsPointer] = useState(false);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const cursorDot = cursorDotRef.current;
-
-    const onMouseMove = (e) => {
-      const { clientX, clientY } = e;
-      
-      if (cursor) {
-        cursor.style.left = clientX + 'px';
-        cursor.style.top = clientY + 'px';
+    const handleMouseMove = (e) => {
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          x: e.clientX - 20,
+          y: e.clientY - 20,
+          duration: 0.3,
+          ease: "power2.out"
+        });
       }
       
-      if (cursorDot) {
-        cursorDot.style.left = clientX + 'px';
-        cursorDot.style.top = clientY + 'px';
+      if (cursorDotRef.current) {
+        gsap.to(cursorDotRef.current, {
+          x: e.clientX - 3,
+          y: e.clientY - 3,
+          duration: 0.1,
+          ease: "power2.out"
+        });
       }
     };
 
-    const onMouseEnter = (e) => {
-      const target = e.target;
-      if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.classList.contains('cursor-pointer')) {
-        setIsPointer(true);
+    const handleMouseEnter = (e) => {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        gsap.to(cursorRef.current, {
+          scale: 1.5,
+          duration: 0.3
+        });
       }
     };
 
-    const onMouseLeave = () => {
-      setIsPointer(false);
+    const handleMouseLeave = (e) => {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        gsap.to(cursorRef.current, {
+          scale: 1,
+          duration: 0.3
+        });
+      }
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseenter', onMouseEnter, true);
-    document.addEventListener('mouseleave', onMouseLeave, true);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseenter', handleMouseEnter, true);
+      window.addEventListener('mouseleave', handleMouseLeave, true);
+    }
 
     return () => {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseenter', onMouseEnter, true);
-      document.removeEventListener('mouseleave', onMouseLeave, true);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseenter', handleMouseEnter, true);
+        window.removeEventListener('mouseleave', handleMouseLeave, true);
+      }
     };
   }, []);
 
   return (
-    <>
+    <div className="hidden md:block">
       <div
         ref={cursorRef}
-        className={`custom-cursor ${isPointer ? 'pointer' : ''}`}
+        className="fixed top-0 left-0 w-10 h-10 border-2 border-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
+        style={{ position: 'fixed' }}
       />
       <div
         ref={cursorDotRef}
-        className="custom-cursor-dot"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-blue-500 rounded-full pointer-events-none z-50"
+        style={{ position: 'fixed' }}
       />
-      
-      <style jsx>{`
-        .custom-cursor {
-          position: fixed;
-          width: 40px;
-          height: 40px;
-          border: 2px solid #3b82f6;
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 9999;
-          transform: translate(-50%, -50%);
-          transition: width 0.3s, height 0.3s, border-color 0.3s;
-          mix-blend-mode: difference;
-        }
-
-        .custom-cursor.pointer {
-          width: 60px;
-          height: 60px;
-          border-color: #8b5cf6;
-        }
-
-        .custom-cursor-dot {
-          position: fixed;
-          width: 6px;
-          height: 6px;
-          background: #3b82f6;
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 9999;
-          transform: translate(-50%, -50%);
-          transition: background 0.3s;
-        }
-
-        @media (max-width: 768px) {
-          .custom-cursor,
-          .custom-cursor-dot {
-            display: none;
-          }
-        }
-      `}</style>
-    </>
+    </div>
   );
 }
 
@@ -637,6 +612,161 @@ export function ParallaxMouseEffect({ children, intensity = 0.1 }) {
   return (
     <div ref={elementRef} style={{ transition: 'transform 0.1s ease-out' }}>
       {children}
+    </div>
+  );
+}
+
+// Hover Tilt Card Effect
+export function HoverTiltCard({ children, className = "" }) {
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left;
+    const y = e.clientY - box.top;
+    const centerX = box.width / 2;
+    const centerY = box.height / 2;
+    const rotateXValue = (y - centerY) / 8;
+    const rotateYValue = (centerX - x) / 8;
+
+    setRotateX(rotateXValue);
+    setRotateY(rotateYValue);
+  };
+
+  const handleMouseLeave = () => {
+    setRotateX(0);
+    setRotateY(0);
+  };
+
+  return (
+    <motion.div
+      className={`transform-gpu perspective-1000 ${className}`}
+      style={{
+        transformStyle: "preserve-3d",
+        rotateX,
+        rotateY,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Mouse Follower Dot
+export function MouseFollowerDot() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cursorRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          x: e.clientX - 10,
+          y: e.clientY - 10,
+          duration: 0.1,
+          ease: "power2.out"
+        });
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={cursorRef}
+      className="fixed top-0 left-0 w-5 h-5 bg-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
+      style={{ position: 'fixed' }}
+    />
+  );
+}
+
+// Advanced Cursor
+export function AdvancedCursor() {
+  const cursorRef = useRef(null);
+  const cursorDotRef = useRef(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (cursorRef.current) {
+        gsap.to(cursorRef.current, {
+          x: e.clientX - 20,
+          y: e.clientY - 20,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      }
+      
+      if (cursorDotRef.current) {
+        gsap.to(cursorDotRef.current, {
+          x: e.clientX - 3,
+          y: e.clientY - 3,
+          duration: 0.1,
+          ease: "power2.out"
+        });
+      }
+    };
+
+    const handleMouseEnter = (e) => {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        gsap.to(cursorRef.current, {
+          scale: 1.5,
+          duration: 0.3
+        });
+      }
+    };
+
+    const handleMouseLeave = (e) => {
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        gsap.to(cursorRef.current, {
+          scale: 1,
+          duration: 0.3
+        });
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseenter', handleMouseEnter, true);
+      window.addEventListener('mouseleave', handleMouseLeave, true);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseenter', handleMouseEnter, true);
+        window.removeEventListener('mouseleave', handleMouseLeave, true);
+      }
+    };
+  }, []);
+
+  return (
+    <div className="hidden md:block">
+      <div
+        ref={cursorRef}
+        className="fixed top-0 left-0 w-10 h-10 border-2 border-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
+        style={{ position: 'fixed' }}
+      />
+      <div
+        ref={cursorDotRef}
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-blue-500 rounded-full pointer-events-none z-50"
+        style={{ position: 'fixed' }}
+      />
     </div>
   );
 }

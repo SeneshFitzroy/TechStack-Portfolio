@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
+import { Toaster } from 'react-hot-toast';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import '../styles/globals.css';
 import '../styles/advanced-3d.css';
@@ -67,9 +68,19 @@ function MyApp({ Component, pageProps }) {
         <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
         <link rel="dns-prefetch" href="https://students.nsbm.ac.lk" />
       </Head>
-      
-      <ErrorBoundary>
+        <ErrorBoundary>
         <Component {...pageProps} />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#1f2937',
+              color: '#fff',
+              border: '1px solid #3b82f6'
+            }
+          }}
+        />
       </ErrorBoundary>
     </>
   );
