@@ -54,14 +54,16 @@ export function MagneticButton3D({ children, className, onClick, ...props }) {
 
     const handleClick = (e) => {
       // Confetti effect on click
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { 
-          x: e.clientX / window.innerWidth, 
-          y: e.clientY / window.innerHeight 
-        }
-      });
+      if (typeof window !== 'undefined') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { 
+            x: e.clientX / window.innerWidth, 
+            y: e.clientY / window.innerHeight 
+          }
+        });
+      }
       
       if (onClick) onClick(e);
     };
