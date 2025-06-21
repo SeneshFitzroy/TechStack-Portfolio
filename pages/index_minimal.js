@@ -399,9 +399,9 @@ export default function Home() {
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
-
   return (
-    <div className={`${darkMode ? 'dark-mode' : ''} ${isLoading ? 'loading' : ''}`} ref={pageRef}>
+    <SmoothScroll>
+      <div className={`${darkMode ? 'dark-mode' : ''} ${isLoading ? 'loading' : ''}`} ref={pageRef}>
       {isLoading && (
         <div className="loading-screen">
           <div className="loader"></div>
@@ -991,15 +991,20 @@ export default function Home() {
             <p>© {new Date().getFullYear()} Senesh Fitzroy. All Rights Reserved.</p>
           </div>
         </div>
-      </footer>
+      </footer>      {/* Advanced Back to Top Button */}
+      {showBackToTop && (
+        <FloatingActionButton
+          onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
+          icon="fas fa-arrow-up"
+          label="Back to Top"
+        />
+      )}
 
-      {/* Back to Top Button */}
-      <div 
-        className={`back-to-top ${showBackToTop ? 'visible' : ''}`} 
-        onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
-      >
-        <i className="fas fa-arrow-up"></i>
-      </div>
+      {/* Mouse Follower Dot */}
+      <MouseFollowerDot />
+
+      {/* Interactive Cursor Effect */}
+      <InteractiveCursor />
 
       {/* Add additional CSS for new features */}
       <style jsx global>{`
@@ -1773,9 +1778,9 @@ export default function Home() {
           box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
           border-color: rgba(50, 50, 50, 0.3);
         }
-        
-        /* ...existing styles... */
+          /* ...existing styles... */
       `}</style>
-    </div>
+      </div>
+    </SmoothScroll>
   );
 }
