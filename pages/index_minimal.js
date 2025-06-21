@@ -461,43 +461,70 @@ export default function Home() {
             <i className={darkMode ? "fas fa-sun" : "fas fa-moon"}></i>
           </button>
         </div>
-      </nav>
+      </nav>      {/* Advanced Interactive Elements */}
+      <AdvancedCursor />
+      <ScrollProgress />
+      <ParticleBackground darkMode={darkMode} />
 
       {/* Hero Section */}
       <section className="hero">
         <div className="stars"></div>
+        <FloatingParticles count={30} />
         <div className="hero-content">
           <div className="hero-text" ref={heroTextRef}>
-            <div className="badge">BSc (Hons) Software Engineering | Plymouth University</div>
-            <h1 data-text="Senesh Fitzroy">Senesh Fitzroy</h1>
-            <h2>Strategic Project Manager & Software Developer</h2>
-            <p>Driving innovation through technology and strategic execution.</p>
-            <div className="hero-buttons">
-              <a href="#contact" className="hero-btn primary-btn">
-                Contact Me <i className="fas fa-arrow-right"></i>
-              </a>
-              <a href="https://tinyurl.com/SeneshCV" target="_blank" rel="noreferrer" className="hero-btn secondary-btn">
-                View CV <i className="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-            <div className="hero-social">
-              {socialLinks.professional.slice(0, 3).map((link, index) => (
-                <a key={index} href={link.url} target="_blank" rel="noreferrer" className="hero-social-icon" aria-label={link.name}>
-                  <i className={link.icon}></i>
-                </a>
-              ))}
-            </div>
+            <ScrollReveal direction="up" delay={0.2}>
+              <div className="badge">BSc (Hons) Software Engineering | Plymouth University</div>
+            </ScrollReveal>
+            <GlitchText className="hero-title">
+              <h1 data-text="Senesh Fitzroy">Senesh Fitzroy</h1>
+            </GlitchText>
+            <ScrollReveal direction="up" delay={0.4}>
+              <h2>Strategic Project Manager & Software Developer</h2>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.6}>
+              <TypewriterText 
+                text="Driving innovation through technology and strategic execution."
+                className="hero-description"
+              />
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.8}>
+              <div className="hero-buttons">
+                <MagneticButton className="hero-btn primary-btn">
+                  <a href="#contact">
+                    Contact Me <i className="fas fa-arrow-right"></i>
+                  </a>
+                </MagneticButton>
+                <MagneticButton className="hero-btn secondary-btn">
+                  <a href="https://tinyurl.com/SeneshCV" target="_blank" rel="noreferrer">
+                    View CV <i className="fas fa-external-link-alt"></i>
+                  </a>
+                </MagneticButton>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={1.0}>
+              <div className="hero-social">
+                {socialLinks.professional.slice(0, 3).map((link, index) => (
+                  <MagneticButton key={index} className="hero-social-icon">
+                    <a href={link.url} target="_blank" rel="noreferrer" aria-label={link.name}>
+                      <i className={link.icon}></i>
+                    </a>
+                  </MagneticButton>
+                ))}
+              </div>
+            </ScrollReveal>
           </div>
-          <div className="hero-image" ref={heroImageRef}>
-            <Image 
-              src="/assets/senesh.jpeg" 
-              alt="Senesh Fitzroy" 
-              width={300} 
-              height={300} 
-              priority
-              className="profile-image"
-            />
-            <div className="image-decoration"></div>
+          <TiltCard className="hero-image" ref={heroImageRef}>
+            <FloatingElement intensity={1.5}>
+              <Image 
+                src="/assets/senesh.jpeg" 
+                alt="Senesh Fitzroy" 
+                width={300} 
+                height={300} 
+                priority
+                className="profile-image"
+              />
+            </FloatingElement>
+            <MorphingShape className="image-decoration" />
           </div>
         </div>
         <div className="scroll-indicator">
