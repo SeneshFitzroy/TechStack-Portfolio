@@ -330,30 +330,34 @@ export function ParticleBackground({ darkMode }) {
   return null;
 }
 
-// Smooth Scroll Component
+// Smooth Scroll Component (Simplified)
 export function SmoothScroll({ children }) {
   useEffect(() => {
-    const lenis = new (require('@studio-freight/lenis').default)({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-      infinite: false,
-    });
+    // Simple smooth scroll polyfill
+    if (typeof window !== 'undefined') {
+      // Override default scroll behavior for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+        });
+      });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      // Add smooth scroll CSS
+      document.documentElement.style.scrollBehavior = 'smooth';
     }
 
-    requestAnimationFrame(raf);
-
     return () => {
-      lenis.destroy();
+      if (typeof window !== 'undefined') {
+        document.documentElement.style.scrollBehavior = 'auto';
+      }
     };
   }, []);
 
