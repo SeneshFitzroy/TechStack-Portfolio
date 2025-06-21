@@ -571,7 +571,7 @@ export default function Home() {
               <div className="projects-grid">
                 {filteredProjects.map((project, index) => (
                   <StaggerItem key={project.id}>
-                    <TiltEffect className={`project-card glass-card ${project.featured ? 'featured' : ''}`}>
+                    <TiltCard className={`project-card glass-card ${project.featured ? 'featured' : ''}`}>
                       <div className="project-header">
                         <div className="project-status">
                           <span className={`status-badge ${project.status}`}>
@@ -630,7 +630,7 @@ export default function Home() {
                           <span>View Project</span>
                         </div>
                       </div>
-                    </TiltEffect>
+                    </TiltCard>
                   </StaggerItem>
                 ))}
               </div>
