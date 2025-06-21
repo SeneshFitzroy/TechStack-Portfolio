@@ -709,3 +709,67 @@ export function MouseFollowerDot() {
     />
   );
 }
+
+// Additional Interactive Components
+export function InteractiveCursor() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove);
+      return () => window.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
+
+  return (
+    <motion.div
+      className="interactive-cursor"
+      style={{
+        position: 'fixed',
+        left: mousePosition.x - 10,
+        top: mousePosition.y - 10,
+        width: 20,
+        height: 20,
+        borderRadius: '50%',
+        backgroundColor: 'rgba(59, 130, 246, 0.5)',
+        pointerEvents: 'none',
+        zIndex: 9999,
+        mixBlendMode: 'difference'
+      }}
+      animate={{
+        scale: [1, 1.2, 1],
+      }}
+      transition={{
+        duration: 0.3,
+        repeat: Infinity,
+      }}
+    />
+  );
+}
+
+export function TiltEffect({ children, className = "" }) {
+  return (
+    <motion.div
+      className={className}
+      whileHover={{
+        rotateX: 5,
+        rotateY: 5,
+        scale: 1.02
+      }}
+      transition={{
+        duration: 0.3,
+        type: "spring"
+      }}
+      style={{
+        transformStyle: "preserve-3d",
+        perspective: 1000
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
