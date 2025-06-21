@@ -20,7 +20,8 @@ import {
   AdvancedCursor, 
   ParticleBackground, 
   TiltCard,
-  SmoothScroll
+  SmoothScroll,
+  ParallaxMouseEffect
 } from '../components/AdvancedInteractions';
 import {
   ScrollReveal,
@@ -508,7 +509,7 @@ export default function Home() {
               <div className="skills-grid">
                 {skills[activeSkillCategory]?.map((skill, index) => (
                   <StaggerItem key={skill.name}>
-                    <TiltEffect className="skill-card card-3d">
+                    <TiltCard className="skill-card card-3d">
                       <div className="skill-icon">
                         <i className={skill.icon}></i>
                       </div>
@@ -525,7 +526,7 @@ export default function Home() {
                       <div className={`skill-badge badge-${skill.category}`}>
                         {skill.category}
                       </div>
-                    </TiltEffect>
+                    </TiltCard>
                   </StaggerItem>
                 ))}
               </div>

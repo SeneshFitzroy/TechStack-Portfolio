@@ -595,3 +595,42 @@ export function TiltCard({ children, className, tiltMaxAngleX = 15, tiltMaxAngle
     </div>
   );
 }
+
+// Parallax Mouse Effect
+export function ParallaxMouseEffect({ children, intensity = 0.1 }) {
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    const handleMouseMove = (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const moveX = x * intensity;
+      const moveY = y * intensity;
+      
+      element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    };
+
+    const handleMouseLeave = () => {
+      element.style.transform = 'translate(0, 0)';
+    };
+
+    element.addEventListener('mousemove', handleMouseMove);
+    element.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      element.removeEventListener('mousemove', handleMouseMove);
+      element.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [intensity]);
+
+  return (
+    <div ref={elementRef} style={{ transition: 'transform 0.1s ease-out' }}>
+      {children}
+    </div>
+  );
+}
