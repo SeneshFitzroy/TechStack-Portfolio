@@ -378,13 +378,11 @@ export default function Home() {
               )}
             </div>
           </div>
-        </section>
-
-        {/* Certifications Section */}
-        <section className="relative z-10 py-20">
+        </section>        {/* Certifications Section */}
+        <section className="relative z-10 py-20 bg-black/20">
           <div className="container mx-auto px-4">
             <ScrollReveal>
-              <h2 className="text-4xl font-bold text-center text-white mb-12">
+              <h2 className="text-5xl font-bold text-center text-white mb-16">
                 Certifications & Achievements
               </h2>
             </ScrollReveal>
@@ -392,72 +390,65 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Skills Section */}
-        <section className="relative z-10 py-20">
-          <div className="container mx-auto px-4">
-            <ScrollReveal>
-              <h2 className="text-4xl font-bold text-center text-white mb-12">
-                Technical Skills
-              </h2>
-            </ScrollReveal>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <ScrollReveal direction="left" delay={0}>
-                <div className="text-center">
-                  <div className="text-5xl mb-4">⚛️</div>
-                  <h3 className="text-xl font-bold text-white mb-2">Frontend</h3>
-                  <p className="text-gray-300">React, Next.js, TypeScript, Tailwind CSS, Three.js</p>
-                </div>
-              </ScrollReveal>
-              
-              <ScrollReveal direction="left" delay={0.1}>
-                <div className="text-center">
-                  <div className="text-5xl mb-4">🔧</div>
-                  <h3 className="text-xl font-bold text-white mb-2">Backend</h3>
-                  <p className="text-gray-300">Node.js, Python, Firebase, PostgreSQL, MongoDB</p>
-                </div>
-              </ScrollReveal>
-              
-              <ScrollReveal direction="left" delay={0.2}>
-                <div className="text-center">
-                  <div className="text-5xl mb-4">🤖</div>
-                  <h3 className="text-xl font-bold text-white mb-2">AI/ML</h3>
-                  <p className="text-gray-300">TensorFlow, PyTorch, Computer Vision, NLP</p>
-                </div>
-              </ScrollReveal>
-              
-              <ScrollReveal direction="left" delay={0.3}>
-                <div className="text-center">
-                  <div className="text-5xl mb-4">☁️</div>
-                  <h3 className="text-xl font-bold text-white mb-2">Cloud</h3>
-                  <p className="text-gray-300">AWS, Azure, Docker, Kubernetes, DevOps</p>
-                </div>
-              </ScrollReveal>
-            </div>
-          </div>
-        </section>
-
         {/* Contact Section */}
-        <section className="relative z-10 py-20 bg-black/30">
+        <section id="contact" className="relative z-10 py-20">
           <div className="container mx-auto px-4 text-center">
             <ScrollReveal>
-              <h2 className="text-4xl font-bold text-white mb-8">
-                Let's Build Something Amazing Together
+              <h2 className="text-5xl font-bold text-white mb-8">
+                Let's Create Something Amazing
               </h2>
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                Ready to bring your ideas to life with cutting-edge technology and innovative solutions.
+              <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+                Ready to bring your vision to life? I'm passionate about collaborating on innovative projects 
+                that push the boundaries of what's possible with modern web technologies.
               </p>
-              <div className="space-x-4">
-                <button className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
-                  Get In Touch
-                </button>
-                <button className="px-8 py-3 border border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white font-semibold rounded-lg transition-colors">
-                  Download Resume
-                </button>
+              <div className="flex flex-wrap gap-6 justify-center">
+                <MagneticButton3D onClick={() => toast.success('📧 Opening email client...')}>
+                  📧 Email Me
+                </MagneticButton3D>
+                <MagneticButton3D onClick={() => toast.success('💼 Opening LinkedIn...')}>
+                  💼 LinkedIn
+                </MagneticButton3D>
+                <MagneticButton3D onClick={() => toast.success('📱 Opening GitHub...')}>
+                  📱 GitHub
+                </MagneticButton3D>
+                <PulseButton onClick={() => toast.success('📄 Downloading resume...')}>
+                  📄 Download Resume
+                </PulseButton>
               </div>
             </ScrollReveal>
           </div>
         </section>
+
+        {/* Footer */}
+        <footer className="relative z-10 py-12 bg-black/40 backdrop-blur-sm border-t border-gray-800">
+          <div className="container mx-auto px-4 text-center">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="inline-block"
+            >
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent mb-4">
+                Senesh Fitzroy
+              </h3>
+            </motion.div>
+            <p className="text-gray-400 mb-6">
+              Crafting exceptional digital experiences with passion and precision
+            </p>
+            <div className="flex justify-center space-x-6 text-2xl">
+              <motion.a whileHover={{ scale: 1.2, rotate: 10 }} className="text-blue-400 hover:text-blue-300">🌐</motion.a>
+              <motion.a whileHover={{ scale: 1.2, rotate: -10 }} className="text-purple-400 hover:text-purple-300">💼</motion.a>
+              <motion.a whileHover={{ scale: 1.2, rotate: 10 }} className="text-pink-400 hover:text-pink-300">📱</motion.a>
+              <motion.a whileHover={{ scale: 1.2, rotate: -10 }} className="text-green-400 hover:text-green-300">📧</motion.a>
+            </div>
+            <motion.p 
+              className="text-gray-500 text-sm mt-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              © 2024 Senesh Fitzroy. Crafted with ❤️ using Next.js, Three.js & cutting-edge web technologies.
+            </motion.p>
+          </div>
+        </footer>
       </main>
     </>
   );
