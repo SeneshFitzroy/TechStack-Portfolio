@@ -692,5 +692,6 @@ export function MouseFollowerDot() {
       ref={cursorRef}
       className="fixed top-0 left-0 w-5 h-5 bg-blue-500 rounded-full pointer-events-none z-50 mix-blend-difference"
       style={{ position: 'fixed' }}
+    />
   );
 }
