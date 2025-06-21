@@ -104,6 +104,73 @@ export default function Home() {
             <Certifications />
           </div>
         </section>
+
+        {/* Skills Section */}
+        <section className="relative z-10 py-20">
+          <div className="container mx-auto px-4">
+            <ScrollReveal>
+              <h2 className="text-4xl font-bold text-center text-white mb-12">
+                Technical Skills
+              </h2>
+            </ScrollReveal>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <ScrollReveal direction="left" delay={0}>
+                <div className="text-center">
+                  <div className="text-5xl mb-4">⚛️</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Frontend</h3>
+                  <p className="text-gray-300">React, Next.js, TypeScript, Tailwind CSS, Three.js</p>
+                </div>
+              </ScrollReveal>
+              
+              <ScrollReveal direction="left" delay={0.1}>
+                <div className="text-center">
+                  <div className="text-5xl mb-4">🔧</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Backend</h3>
+                  <p className="text-gray-300">Node.js, Python, Firebase, PostgreSQL, MongoDB</p>
+                </div>
+              </ScrollReveal>
+              
+              <ScrollReveal direction="left" delay={0.2}>
+                <div className="text-center">
+                  <div className="text-5xl mb-4">🤖</div>
+                  <h3 className="text-xl font-bold text-white mb-2">AI/ML</h3>
+                  <p className="text-gray-300">TensorFlow, PyTorch, Computer Vision, NLP</p>
+                </div>
+              </ScrollReveal>
+              
+              <ScrollReveal direction="left" delay={0.3}>
+                <div className="text-center">
+                  <div className="text-5xl mb-4">☁️</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Cloud</h3>
+                  <p className="text-gray-300">AWS, Azure, Docker, Kubernetes, DevOps</p>
+                </div>
+              </ScrollReveal>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="relative z-10 py-20 bg-black/30">
+          <div className="container mx-auto px-4 text-center">
+            <ScrollReveal>
+              <h2 className="text-4xl font-bold text-white mb-8">
+                Let's Build Something Amazing Together
+              </h2>
+              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                Ready to bring your ideas to life with cutting-edge technology and innovative solutions.
+              </p>
+              <div className="space-x-4">
+                <button className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+                  Get In Touch
+                </button>
+                <button className="px-8 py-3 border border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white font-semibold rounded-lg transition-colors">
+                  Download Resume
+                </button>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
       </main>
     </>
   );
