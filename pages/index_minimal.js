@@ -12,26 +12,37 @@ const Interactive3D = dynamic(() => import('../components/Interactive3D'), { ssr
 
 // Import advanced components
 import {
-  MagneticButton,
   ScrollReveal,
-  ParallaxText,
   StaggerContainer,
   StaggerItem,
   MorphingShape,
   FloatingElement,
   GlitchText,
-  AnimatedProgressBar,
-  TypewriterText
+  HolographicText,
+  FloatingParticles,
+  TypewriterText,
+  MagneticButton3D,
+  GlowingCard,
+  AnimatedCounter,
+  PulseButton,
+  MorphingText,
+  ParallaxSection
 } from '../components/AdvancedAnimations';
 
 import {
   AdvancedCursor,
   ParticleBackground,
-  MagneticButton as MagneticBtn,
+  MagneticButton,
   ScrollProgress,
   FloatingActionButton,
   RevealOnScroll,
-  TiltCard
+  TiltCard,
+  SmoothScroll,
+  InteractiveCursor,
+  TiltEffect,
+  MouseFollowerDot,
+  HoverTiltCard,
+  ParallaxMouseEffect
 } from '../components/AdvancedInteractions';
 
 // Updated certificationsData with reorganized categories
