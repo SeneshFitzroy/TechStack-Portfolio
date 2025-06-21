@@ -7,6 +7,16 @@ import dynamic from 'next/dynamic';
 const Scene3D = dynamic(() => import('../components/Scene3D'), { ssr: false });
 const LoadingScreen = dynamic(() => import('../components/LoadingScreen'), { ssr: false });
 
+// Import some advanced components
+import {
+  ScrollReveal,
+  StaggerContainer,
+  StaggerItem,
+  FloatingElement,
+  TypewriterText
+} from '../components/AdvancedAnimations';
+import Certifications from '../components/Certifications';
+
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
@@ -73,12 +83,26 @@ export default function Home() {
 
         {/* Success message */}
         <section className="relative z-10 py-20 text-center bg-black/20">
-          <h2 className="text-3xl text-white mb-4">
-            🎉 3D Portfolio Successfully Loaded!
-          </h2>
-          <p className="text-gray-300">
-            Advanced 3D scene, animations, and responsive design are now working perfectly.
-          </p>
+          <ScrollReveal>
+            <h2 className="text-3xl text-white mb-4">
+              🎉 3D Portfolio Successfully Loaded!
+            </h2>
+            <p className="text-gray-300">
+              Advanced 3D scene, animations, and responsive design are now working perfectly.
+            </p>
+          </ScrollReveal>
+        </section>
+
+        {/* Certifications Section */}
+        <section className="relative z-10 py-20">
+          <div className="container mx-auto px-4">
+            <ScrollReveal>
+              <h2 className="text-4xl font-bold text-center text-white mb-12">
+                Certifications & Achievements
+              </h2>
+            </ScrollReveal>
+            <Certifications />
+          </div>
         </section>
       </main>
     </>
