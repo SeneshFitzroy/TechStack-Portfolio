@@ -604,26 +604,28 @@ export default function Home() {
               <i className="fas fa-tools"></i> Tools
             </button>
           </div>
-          
-          <div className="skills-content">
+            <StaggerContainer className="skills-content">
             {skills[activeSkillCategory].map((skill, index) => (
-              <div key={index} className="skill-bar">
-                <div className="skill-info">
-                  <i className={skill.icon}></i>
-                  <span>{skill.name}</span>
-                </div>
-                <div className="skill-progress">
-                  <div 
-                    className="skill-progress-bar" 
-                    style={{width: `${skill.proficiency}%`}}
-                    data-value={skill.proficiency}
-                  >
-                    <span>{skill.proficiency}%</span>
-                  </div>
-                </div>
-              </div>
+              <StaggerItem key={index}>
+                <RevealOnScroll direction="left" delay={index * 0.1}>
+                  <TiltCard className="skill-bar">
+                    <div className="skill-info">
+                      <i className={skill.icon}></i>
+                      <span>{skill.name}</span>
+                    </div>
+                    <div className="skill-progress">
+                      <AnimatedCounter 
+                        end={skill.proficiency}
+                        duration={2}
+                        suffix="%"
+                        className="skill-progress-bar"
+                      />
+                    </div>
+                  </TiltCard>
+                </RevealOnScroll>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
           
           {/* Remove duplicate skills list and keep only the cloud visualization */}
           <div className="skills-cloud">
@@ -681,31 +683,37 @@ export default function Home() {
               Desktop
             </button>
           </div>
-          
-          <div className="projects-grid">
+            <StaggerContainer className="projects-grid">
             {filteredProjects.map((project, index) => (
-              <div key={index} className="project-card">
-                <div className="project-accent-border"></div>
-                <div className="project-content">
-                  <span className="project-category-tag">{project.category}</span>
-                  <h3>{project.title}</h3>
-                  <p className="project-description">{project.description}</p>
-                  <div className="project-tech">
-                    {project.technologies.map((tech, idx) => (
-                      <span key={idx} className="tech-tag">{tech}</span>
-                    ))}
-                  </div>
-                  <div className="project-github-link">
-                    <a href={project.github} target="_blank" rel="noreferrer">
-                      <span className="github-btn">
-                        <i className="fab fa-github"></i> View Project
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <StaggerItem key={index}>
+                <RevealOnScroll direction="up" delay={index * 0.2}>
+                  <HoverTiltCard className="project-card">
+                    <div className="project-accent-border"></div>
+                    <div className="project-content">
+                      <span className="project-category-tag">{project.category}</span>
+                      <GlowingCard>
+                        <h3>{project.title}</h3>
+                        <p className="project-description">{project.description}</p>
+                        <div className="project-tech">
+                          {project.technologies.map((tech, idx) => (
+                            <MagneticButton key={idx} className="tech-tag">
+                              <span>{tech}</span>
+                            </MagneticButton>
+                          ))}
+                        </div>
+                      </GlowingCard>
+                      <div className="project-github-link">                        <a href={project.github} target="_blank" rel="noreferrer">
+                          <span className="github-btn">
+                            <i className="fab fa-github"></i> View Project
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </HoverTiltCard>
+                </RevealOnScroll>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
           
           <div className="project-cta">
             <a href="https://github.com/SeneshFitzroy" target="_blank" rel="noreferrer" className="cta-btn">
