@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import Head from 'next/head';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import '../styles/globals.css';
+import '../styles/advanced-3d.css';
 
 function MyApp({ Component, pageProps }) {
   // Performance optimizations and error handling

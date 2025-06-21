@@ -274,8 +274,8 @@ export default function Home() {
               key={i}
               className="particle"
               initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : Math.random() * 1200,
+                y: typeof window !== 'undefined' ? Math.random() * window.innerHeight : Math.random() * 800,
                 scale: 0
               }}
               animate={{
